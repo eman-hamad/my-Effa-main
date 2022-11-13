@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36" viewBox="0 0 36 36">
+  
+  <g id="Mask_Group_263" data-name="Mask Group 263" transform="translate(-144 -609)" clip-path="url(#clip-path)">
+    <g id="svgexport-6_57_" data-name="svgexport-6 (57)" transform="translate(144 609)">
+      <g id="Group_1853" data-name="Group 1853">
+        <path id="Path_2171" data-name="Path 2171" d="M27,36H9a9,9,0,0,1-9-9V9A9,9,0,0,1,9,0H27a9,9,0,0,1,9,9V27a9,9,0,0,1-9,9" fill="#0091ff" fill-rule="evenodd"/>
+        <path id="Path_2172" data-name="Path 2172" d="M16.875,10.125H27a5.063,5.063,0,0,0,.517-10.1C27.345.016,27.175,0,27,0H9A9,9,0,0,0,0,9V27A16.875,16.875,0,0,1,16.875,10.125" fill="#00b4ff" fill-rule="evenodd"/>
+        <path id="Path_2173" data-name="Path 2173" d="M27,18a9,9,0,1,0,9,9V9a9,9,0,0,1-9,9" fill="#006eff" fill-rule="evenodd"/>
+        <path id="Path_2174" data-name="Path 2174" d="M25.4,14.933a.563.563,0,0,0-.815-.748l-3.678,2.758a1.125,1.125,0,0,1-1.329.015L17,15.115a2.63,2.63,0,0,0-1.529-.49h0a1.523,1.523,0,0,0-1.291.715L10.6,21.067a.562.562,0,0,0,.814.748l3.678-2.758a1.125,1.125,0,0,1,1.329-.015L19,20.885a2.63,2.63,0,0,0,1.529.49h0a1.523,1.523,0,0,0,1.291-.715ZM10.125,26.547a11.59,11.59,0,0,1-4.5-9.11C5.625,10.918,11.17,5.625,18,5.625s12.375,5.293,12.375,11.813S24.83,29.25,18,29.25a12.923,12.923,0,0,1-3.278-.42l-3,1.377a1.125,1.125,0,0,1-1.594-1.023Z" fill="#fff" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+</svg>

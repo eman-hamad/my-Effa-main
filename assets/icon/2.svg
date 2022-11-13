@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+ 
+  <g id="Mask_Group_254" data-name="Mask Group 254" transform="translate(-294.5 -6)" clip-path="url(#clip-path)">
+    <g id="svgexport-6_40_" data-name="svgexport-6 (40)" transform="translate(294.5 6)">
+      <g id="XMLID_1163_">
+        <path id="XMLID_1164_" d="M12,6.353a3.182,3.182,0,0,0,2.994-2.118H12V2.824h3.156A3.176,3.176,0,1,0,12,6.353Z" fill="#ff8297"/>
+        <path id="XMLID_1192_" d="M14.118,9.176h3.117a5.682,5.682,0,0,0-2.148-2.609,4.579,4.579,0,0,1-6.174,0,5.647,5.647,0,0,0-2.56,4.726V12H9.882v1.412H6.353v3.529H8.471l.282,2.824h2.541v1.412h-2.4L9.176,24h5.647l.706-7.059h2.118V11.294a5.674,5.674,0,0,0-.044-.706H14.118Z" fill="#ff8297"/>
+        <path id="XMLID_1232_" d="M14.994,4.235h2.653v.706h2.824V2.118H17.647v.706H15.156A3.158,3.158,0,0,1,14.994,4.235Z" fill="#ff8297"/>
+        <path id="XMLID_1233_" d="M3.529,19.765v-.706H.706v2.824H3.529v-.706H8.894l-.141-1.412Z" fill="#ff8297"/>
+        <path id="XMLID_1234_" d="M2.824,12v-.706H0v2.824H2.824v-.706H6.353V12Z" fill="#ff8297"/>
+        <path id="XMLID_1235_" d="M21.176,8.471v.706H17.235a5.6,5.6,0,0,1,.368,1.412h3.574v.706H24V8.471Z" fill="#ff8297"/>
+      </g>
+    </g>
+  </g>
+</svg>
