@@ -214,7 +214,7 @@ class ReligionInfo extends StatelessWidget {
 
   void postReligion(int? religionId, BuildContext context) async {
     final MyUser user =
-    await UserManager().updateUser(id, religion_id: religionId.toString());
+    await UserManager().updateUser(id, religion_id: religionId);
     if(user.religionId!=0){
       Preferences.instance.setUser(user).then((value) {
         Navigator.push(

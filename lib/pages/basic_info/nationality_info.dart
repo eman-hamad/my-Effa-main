@@ -14,12 +14,18 @@ import 'religion_info.dart';
 
 import 'birthdate_info.dart';
 
-class NationalityInfo extends StatelessWidget {
+class NationalityInfo extends StatefulWidget {
   NationalityInfo({Key? key, required this.progress, this.id, this.gender})
       : super(key: key);
   final int? id;
   late double progress;
   int? gender;
+
+  @override
+  State<NationalityInfo> createState() => _NationalityInfoState();
+}
+
+class _NationalityInfoState extends State<NationalityInfo> {
 //   @override
   bool press = false;
 
@@ -28,6 +34,7 @@ class NationalityInfo extends StatelessWidget {
   TextEditingController editingController = TextEditingController();
 
   int tapIndex = 0;
+
   Future<List<Nationality>>? myNationalityList;
 
   @override
@@ -119,6 +126,18 @@ class NationalityInfo extends StatelessWidget {
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: TextField(
+                  onTap: () {
+                    if (editingController.selection ==
+                        TextSelection.fromPosition(TextPosition(
+                            offset: editingController.text.length - 1))) {
+                      // setState(() {
+                      editingController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: editingController.text.length));
+                      Provider.of<InfoProvider>(context, listen: false)
+                          .rebuild();
+                      // });
+                    }
+                  },
                   cursorColor: basicPink,
                   onChanged: (value) {
                     // setState(() {});
@@ -191,8 +210,8 @@ class NationalityInfo extends StatelessWidget {
                                             // visible = false;
                                             _updateProgress(context);
                                             postNationality(
-                                                snapshot.data![index].id,context);
-
+                                                snapshot.data![index].id,
+                                                context);
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.only(
@@ -256,8 +275,8 @@ class NationalityInfo extends StatelessWidget {
 
                                             _updateProgress(context);
                                             postNationality(
-                                                snapshot.data![index].id,context);
-
+                                                snapshot.data![index].id,
+                                                context);
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.only(
@@ -315,22 +334,19 @@ class NationalityInfo extends StatelessWidget {
 
   void postNationality(int? countryId, BuildContext context) async {
     final MyUser user =
-    await UserManager().updateUser(id, country_id: countryId.toString());
-    if(user.countryId!=0){
+        await UserManager().updateUser(widget.id, country_id: countryId);
+    // if(user.countryId!=0){
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ReligionInfo(
-                gender: gender!,
-                id: id,
-                progress: Provider.of<
-                    InfoProvider>(
-                    context,
-                    listen: false)
-                    .progressValue)));}
+                gender: widget.gender!,
+                id: widget.id,
+                progress: Provider.of<InfoProvider>(context, listen: false)
+                    .progressValue)));
   }
 
-  // void _setIconVisible(bool v) {
+  //}
   void _updateProgress(BuildContext context) {
     //Provider.of<InfoProvider>(context, listen: false).updateProgress(_progressValue);
     Provider.of<InfoProvider>(context, listen: false).progressValue += 0.15;
@@ -342,20 +358,6 @@ class NationalityInfo extends StatelessWidget {
     Provider.of<InfoProvider>(context, listen: false).progressValue -= 0.15;
     Provider.of<InfoProvider>(context, listen: false).rebuild();
   }
-
-  // Widget item(i, nationalites) => Row(
-  //       children: [
-  //         // ListTile(
-  //         //   title: Text('${nationalites[i].word} '),
-  //         // ),
-  //         Container(
-  //             child: IconButton(
-  //                 iconSize: 30,
-  //                 hoverColor: basicPink,
-  //                 onPressed: () {},
-  //                 icon: (const Icon(Icons.check))))
-  //       ],
-  //     );
 }
 
 // class myclass {

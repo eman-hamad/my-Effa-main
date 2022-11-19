@@ -33,10 +33,10 @@ class Options extends StatefulWidget {
       {Key? key,
       required this.progress,
       required this.id,
-      required this.gender})
+       this.gender})
       : super(key: key);
   late double progress;
-  int gender;
+  int? gender;
   int? id;
   @override
   State<Options> createState() => _OptionsState();
@@ -290,7 +290,7 @@ class _OptionsState extends State<Options> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SocialStatus(
-                                        gender: widget.gender,
+                                        gender: widget.gender!,
                                         id: widget.id,
                                         progress: widget.progress,
                                       )));
@@ -312,7 +312,7 @@ class _OptionsState extends State<Options> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Diseases(
-                                        gender: widget.gender,
+                                        gender: widget.gender!,
                                         id: widget.id!,
                                         progress: widget.progress,
                                       )));
@@ -321,7 +321,7 @@ class _OptionsState extends State<Options> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Education(
-                                        gender: widget.gender,
+                                        gender: widget.gender!,
                                         id: widget.id!,
                                         progress: widget.progress,
                                       )));
@@ -330,7 +330,7 @@ class _OptionsState extends State<Options> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Family(
-                                        gender: widget.gender,
+                                        gender: widget.gender!,
                                         id: widget.id!,
                                         progress: widget.progress,
                                       )));
@@ -340,7 +340,7 @@ class _OptionsState extends State<Options> {
                               MaterialPageRoute(
                                   builder: (context) => ConfirmInfo(
                                         id: widget.id,
-                                        gender: widget.gender,
+                                        gender: widget.gender!,
                                         progress: widget.progress,
                                       )));
                         } else if (index == 6) {
@@ -350,14 +350,14 @@ class _OptionsState extends State<Options> {
                                   MaterialPageRoute(
                                       builder: (context) => PersonalPic(
                                             id: widget.id,
-                                            gender: widget.gender,
+                                            gender: widget.gender!,
                                             progress: widget.progress,
                                           )))
                               : Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => FatherInfo(
-                                            gender: widget.gender,
+                                            gender: widget.gender!,
                                             id: widget.id,
                                             progress: widget.progress,
                                           )));
