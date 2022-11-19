@@ -76,7 +76,8 @@ class MyUser {
     phone = json['phone'] != null ? json['phone'] : null;
     countryId = json['country_id'] != null ? json['country_id'] : null;
     country = json['country'] != null ? json['country'] : null;
-    isNew != null ? json['is_new'] : null;
+    isNew =  json['is_new'] ;
+    //isNew != null ? json['is_new'] : null;
     //!=null ? json['is_new']:null;
     // govId = json['gov_id'] != null ? json['gov_id'] :null;
     // cityId = json['city_id'] != null ? json['city_id'] :null;

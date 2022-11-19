@@ -88,6 +88,18 @@ class MultipleChoices extends StatelessWidget {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: TextField(
+            onTap: () {
+              if (editingController.selection ==
+                  TextSelection.fromPosition(TextPosition(
+                      offset: editingController.text.length - 1))) {
+                // setState(() {
+                editingController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: editingController.text.length));
+                Provider.of<InfoProvider>(context, listen: false).rebuild();
+
+                // });
+              }
+            },
             cursorColor: basicPink,
             onChanged: (value) {
               Provider.of<InfoProvider>(context, listen: false).rebuild();
@@ -400,7 +412,7 @@ class MultipleChoices extends StatelessWidget {
                                                           listen: false)
                                                       .rebuild();
                                                   checkedlist[index] = value!;
-                                                if (value == true) {
+                                                  if (value == true) {
                                                     print("ssssssssssssssssss");
                                                     if (!idList.contains(
                                                         snapshot

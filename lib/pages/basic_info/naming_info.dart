@@ -12,15 +12,26 @@ import '../../models/user_model.dart';
 import '../../modules/basic_info_provider.dart';
 import 'birthdate_info.dart';
 
-class NamingInfo extends StatelessWidget {
-  NamingInfo({Key? key, required this.progress, this.id , required this.gender}) : super(key: key);
+class NamingInfo extends StatefulWidget {
+  NamingInfo({Key? key, required this.progress, this.id, required this.gender})
+      : super(key: key);
   late double progress;
-  late double _progressValue = progress;
   final int? id;
-  int ?gender;
+  int? gender;
+
+  @override
+  State<NamingInfo> createState() => _NamingInfoState();
+}
+
+class _NamingInfoState extends State<NamingInfo> {
+  late double _progressValue = widget.progress;
+
   GlobalKey<FormState> form = GlobalKey<FormState>();
+
   TextEditingController firstName = TextEditingController();
+
   TextEditingController secondName = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // final model = Provider.of<AppStateProvider>(context, listen: false);
@@ -110,12 +121,24 @@ class NamingInfo extends StatelessWidget {
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: TextFormField(
+                          onTap: () {
+                            if (secondName.selection ==
+                                TextSelection.fromPosition(TextPosition(
+                                    offset: secondName.text.length - 1))) {
+                              setState(() {
+                                secondName.selection =
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset: secondName.text.length));
+                              });
+                            }
+                          },
                           controller: secondName,
+                          textAlign: TextAlign.right,
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                                 RegExp('[\u0621-\u064A]'))
                           ],
-                          // inputFormatters: [FilteringTextInputFormatter.allow(RegExp('/[\u0600-\u06FF]/'))],
+
                           cursorColor: basicPink,
                           validator: (text) {
                             if (text!.isEmpty) {
@@ -155,7 +178,20 @@ class NamingInfo extends StatelessWidget {
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: TextFormField(
+                           onTap: () {
+                            if (firstName.selection ==
+                                TextSelection.fromPosition(TextPosition(
+                                    offset: firstName.text.length - 1))) {
+                              setState(() {
+                                firstName.selection =
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset: firstName.text.length));
+                              });
+                            }
+                          },
                           controller: firstName,
+                          // //
+                          // textAlign: TextAlign.right,
                           cursorColor: basicPink,
                           validator: (text) {
                             if (text!.isEmpty) {
@@ -201,9 +237,9 @@ class NamingInfo extends StatelessWidget {
               width: 264.w,
               //height: 44.h,
               child: RoundedButton(
-                  mywidget: Padding(
+                  mywidget: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 7),
-                    child: const Text('التالي',
+                    child: Text('التالي',
                         style: TextStyle(
                           color: white,
                           fontSize: 16,
@@ -217,8 +253,7 @@ class NamingInfo extends StatelessWidget {
                     if (!form.currentState!.validate()) {
                       return;
                     }
-                    postName(firstName.text, secondName.text,context);
-
+                    postName(firstName.text, secondName.text, context);
                   },
                   color: basicPink),
             ),
@@ -263,27 +298,26 @@ class NamingInfo extends StatelessWidget {
     );
   }
 
-  void postName(String fname, String lname, BuildContext context,) async {
+  void postName(
+    String fname,
+    String lname,
+    BuildContext context,
+  ) async {
     final MyUser user =
-    await UserManager().updateUser(id, frName: fname, lsName: lname);
-    if(user.faName!=null){
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BirthDateInfo(
-                  gender: gender!,
-                  id: id,
-                  progress: Provider.of<InfoProvider>(context,
-                      listen: false)
-                      .progressValue)));
-    }
+        await UserManager().updateUser(widget.id, frName: fname, lsName: lname);
+    // if(user.faName!=null){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BirthDateInfo(
+                gender: widget.gender!,
+                id: widget.id,
+                progress: Provider.of<InfoProvider>(context, listen: false)
+                    .progressValue)));
+    // }
   }
 
   // void _updateProgress(BuildContext context) {
-  //   _progressValue += 0.1;
-  //   Provider.of<InfoProvider>(context, listen: false).rebuild();
-  // }
-
   void _updateProgress(BuildContext context) {
     //Provider.of<InfoProvider>(context, listen: false).updateProgress(_progressValue);
     Provider.of<InfoProvider>(context, listen: false).progressValue += 0.15;

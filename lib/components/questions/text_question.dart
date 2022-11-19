@@ -59,6 +59,18 @@ class TextQuestion extends StatelessWidget {
                     child: Directionality(
                       textDirection: TextDirection.rtl,
                       child: TextFormField(
+                        onTap: () {
+              if (txtController.selection ==
+                  TextSelection.fromPosition(TextPosition(
+                      offset: txtController.text.length - 1))) {
+                // setState(() {
+                txtController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: txtController.text.length));
+                Provider.of<InfoProvider>(context, listen: false).rebuild();
+
+                // });
+              }
+            },
                         cursorColor: basicPink,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(

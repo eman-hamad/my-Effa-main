@@ -131,9 +131,10 @@ class _LoginPageState extends State<LoginPage> {
                                 print(countryCode);
                               },
                               child: DropdwonLogin(
-                                icon: myCode != null ? myCode!.flagImage : null,
+                                icon: myCode != null ? myCode!.flagImage :  countryPicker.countryCodes[63].flagImage,
                                 txt: countryName == ""
-                                    ? 'اختيار الدولة'
+                                    ? countryPicker.countryCodes[63].name
+                                    //'اختيار الدولة'
                                     : countryName,
 
                                 phoneController: phoneController,
@@ -146,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Expanded(
                               child: TextFieldLogin(
-                                txt: countryCode == "" ? "(+)" : countryCode,
+                                txt: countryCode == "" ?  countryPicker.countryCodes[63].dialCode : countryCode,
                                 // form: form,
                                 validator: (text) {
                                   if (text!.isEmpty) {
@@ -180,22 +181,25 @@ class _LoginPageState extends State<LoginPage> {
                       myfun: () {
                         if (!form.currentState!.validate()) {
                           return;
-                        } else if (myCode == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: orginalRed,
-                            content: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: Text("اختر الدولة للاستمرار")),
-                          ));
-                          return;
                         }
+                        
+                        //  else if (myCode == null) {
+                        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //     backgroundColor: orginalRed,
+                        //     content: Directionality(
+                        //         textDirection: TextDirection.rtl,
+                        //         child: Text("اختر الدولة للاستمرار")),
+                        //   ));
+                        //   return;
+                        // }
 
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PinPage(
-                                      name: countryName,
-                                      code: countryCode,
+                                      name: countryName == ""
+                                    ? countryPicker.countryCodes[63].name :countryName,
+                                      code: countryCode == "" ?  countryPicker.countryCodes[63].dialCode : countryCode,
                                       myPhone: _controller.text,
                                     )));
                       },

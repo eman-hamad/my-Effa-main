@@ -58,7 +58,7 @@ class EffaApp extends StatelessWidget {
           // minTextAdapt: true,
           //splitScreenMode: true,
           builder: ((context, child) => MaterialApp(
-            // useInheritedMediaQuery: true,
+              // useInheritedMediaQuery: true,
               //               theme:  Theme.of(context).copyWith(
               //  appBarTheme: Theme.of(context)
               //      .appBarTheme
@@ -84,13 +84,17 @@ class EffaApp extends StatelessWidget {
 
                   //  appBarTheme: SystemUiOverlayStyle.light.copyWith(           statusBarColor: Theme.of(context).primaryColor,         ),
                   appBarTheme: AppBarTheme(
-                      systemOverlayStyle:
-                          SystemUiOverlayStyle(statusBarColor: basicPink),
-                      brightness: Brightness.light
-                      ),
+                    
+                    systemOverlayStyle: SystemUiOverlayStyle.dark,
+                    // systemOverlayStyle:
+                    //     SystemUiOverlayStyle(statusBarColor: transparnt  ,
+                    //      statusBarBrightness:Brightness.light
+                    // ),
+                    // brightness: Brightness.light
+                  ),
                   fontFamily: 'JFFlat',
                   scrollbarTheme: ScrollbarThemeData().copyWith(
-                    thumbColor: MaterialStateProperty.all(basicPink),
+                    thumbColor: MaterialStateProperty.all(transparnt),
                   )),
               debugShowCheckedModeBanner: false,
 

@@ -2,6 +2,9 @@ import 'package:effah/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../modules/basic_info_provider.dart';
 
 class TextFieldDetails extends StatelessWidget {
   // final TextEditingController? phoneController;
@@ -25,6 +28,18 @@ class TextFieldDetails extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextFormField(
+     onTap: () {
+              if (controller!.selection ==
+                  TextSelection.fromPosition(TextPosition(
+                      offset: controller!.text.length - 1))) {
+                // setState(() {
+                controller!.selection = TextSelection.fromPosition(
+                    TextPosition(offset: controller!.text.length));
+                Provider.of<InfoProvider>(context, listen: false).rebuild();
+
+                // });
+              }
+            },    
         controller: controller,
         cursorColor: basicPink,
         maxLines: 15,

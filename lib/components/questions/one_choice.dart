@@ -154,6 +154,18 @@ class _OneChoiceState extends State<OneChoice> {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: TextField(
+            onTap: () {
+              if (widget.editingController.selection ==
+                  TextSelection.fromPosition(TextPosition(
+                      offset: widget.editingController.text.length - 1))) {
+                // setState(() {
+                widget.editingController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: widget.editingController.text.length));
+                Provider.of<InfoProvider>(context, listen: false).rebuild();
+
+                // });
+              }
+            },
             cursorColor: basicPink,
             onChanged: (value) {
               Provider.of<InfoProvider>(context, listen: false).rebuild();
