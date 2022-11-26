@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:effah/modules/app/app_state_model.dart';
-import 'package:effah/pages/basic_info/gender.dart';
 import 'package:effah/pages/basic_info/options/bottom_tabs/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

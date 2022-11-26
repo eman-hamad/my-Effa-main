@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   String countryName = "";
   String countryCode = "";
   CountryCode? myCode;
-
+  bool is_pressed = true;
   final countryPicker = const FlCountryCodePicker(
     favorites: [
       'EG',
@@ -121,9 +121,11 @@ class _LoginPageState extends State<LoginPage> {
                                 final code = await countryPicker.showPicker(
                                     context: context);
                                 setState(() {
-                                  myCode = code!;
-                                  countryName = code.name;
-                                  countryCode = code.dialCode;
+                                  if (code != null) {
+                                    myCode = code;
+                                    countryName = code.name;
+                                    countryCode = code.dialCode;
+                                  }
                                 });
 
                                 if (code != null) print(code);
@@ -131,9 +133,12 @@ class _LoginPageState extends State<LoginPage> {
                                 print(countryCode);
                               },
                               child: DropdwonLogin(
-                                icon: myCode != null ? myCode!.flagImage : null,
+                                icon: myCode != null
+                                    ? myCode!.flagImage
+                                    : countryPicker.countryCodes[63].flagImage,
                                 txt: countryName == ""
-                                    ? 'اختيار الدولة'
+                                    ? countryPicker.countryCodes[63].name
+                                    //'اختيار الدولة'
                                     : countryName,
 
                                 phoneController: phoneController,
@@ -146,7 +151,9 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Expanded(
                               child: TextFieldLogin(
-                                txt: countryCode == "" ? "(+)" : countryCode,
+                                txt: countryCode == ""
+                                    ? countryPicker.countryCodes[63].dialCode
+                                    : countryCode,
                                 // form: form,
                                 validator: (text) {
                                   if (text!.isEmpty) {
@@ -163,44 +170,71 @@ class _LoginPageState extends State<LoginPage> {
                         )),
                   ),
 
-                  SizedBox(
-                    //height: 44.h,
-                    width: 148.w,
-                    child: RoundedButton(
-                      color: basicPink,
-                      mywidget: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Text('دخول',
-                            style: TextStyle(
-                                color: white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                      raduis: 10,
-                      myfun: () {
-                        if (!form.currentState!.validate()) {
-                          return;
-                        } else if (myCode == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: orginalRed,
-                            content: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: Text("اختر الدولة للاستمرار")),
-                          ));
-                          return;
-                        }
+                  is_pressed 
+                      ? SizedBox(
+                          //height: 44.h,
+                          width: 148.w,
+                          child: RoundedButton(
+                            color: basicPink,
+                            mywidget: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              child: Text('دخول',
+                                  style: TextStyle(
+                                      color: white,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.normal)),
+                            ),
+                            raduis: 10,
+                            myfun: () {
+                              if (!form.currentState!.validate()) {
+                                return;
+                              }
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PinPage(
-                                      name: countryName,
-                                      code: countryCode,
-                                      myPhone: _controller.text,
-                                    )));
-                      },
-                    ),
-                  ),
+                              //  else if (myCode == null) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              //     backgroundColor: orginalRed,
+                              //     content: Directionality(
+                              //         textDirection: TextDirection.rtl,
+                              //         child: Text("اختر الدولة للاستمرار")),
+                              //   ));
+                              //   return;
+                              // }
+                              setState(() {
+                                is_pressed = false;
+                              });
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (BuildContext context,
+                                        Animation<double> animation,
+                                        Animation<double> secondaryAnimation) {
+                                      return PinPage(
+                                        name: countryName == ""
+                                            ? countryPicker
+                                                .countryCodes[63].name
+                                            : countryName,
+                                        code: countryCode == ""
+                                            ? countryPicker
+                                                .countryCodes[63].dialCode
+                                            : countryCode,
+                                        myPhone: _controller.text,
+                                      );
+                                    },
+                                    transitionDuration: Duration.zero,
+                                  ));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => PinPage(
+                              //               name: countryName == ""
+                              //             ? countryPicker.countryCodes[63].name :countryName,
+                              //               code: countryCode == "" ?  countryPicker.countryCodes[63].dialCode : countryCode,
+                              //               myPhone: _controller.text,
+                              //             )));
+                            },
+                          ),
+                        )
+                      : CircularProgressIndicator(),
 
                   // Spacer(),
                   SizedBox(

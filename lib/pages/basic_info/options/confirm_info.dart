@@ -20,7 +20,7 @@ import '../../../models/user_model.dart';
 import '../../../models/user_upload_images_model.dart';
 import '../../../modules/basic_info_provider.dart';
 import '../../../preferences/preferences.dart';
-import '../birthdate_info.dart';
+
 
 class ConfirmInfo extends StatefulWidget {
   ConfirmInfo({Key? key,

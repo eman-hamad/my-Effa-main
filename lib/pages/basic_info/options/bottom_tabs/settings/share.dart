@@ -1,6 +1,5 @@
 import 'package:effah/constants.dart';
 import 'package:effah/modules/app/app_state_model.dart';
-import 'package:effah/pages/basic_info/gender.dart';
 import 'package:effah/pages/basic_info/options/bottom_tabs/filter/filter_options.dart';
 import 'package:effah/pages/basic_info/options/message.dart';
 import 'package:effah/pages/basic_info/options/bottom_tabs/settings/settings.dart';

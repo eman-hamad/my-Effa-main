@@ -12,7 +12,7 @@ import 'package:effah/pages/basic_info/options/no_notifications.dart';
 import 'package:effah/pages/basic_info/options/personal_pic.dart';
 import 'package:effah/pages/basic_info/options/diseases.dart';
 import 'package:effah/pages/basic_info/options/social/Social_status.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,8 +22,7 @@ import 'package:provider/provider.dart';
 import '../../../components/reusable_widgets/wait_bottomsheet.dart';
 import '../../../managers/question_manager.dart';
 import '../../../modules/basic_info_provider.dart';
-import '../gender.dart';
-import '../birthdate_info.dart';
+
 import 'myProfile.dart';
 import 'confirm_info.dart';
 import 'view_my_profile.dart';

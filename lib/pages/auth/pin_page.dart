@@ -99,7 +99,10 @@ class _PinPageState extends State<PinPage> {
     String strDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = strDigits(myDuration.inMinutes.remainder(60));
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
-
+    print("wowwww");
+    print(widget.code);
+    print(widget.name);
+    print(widget.myPhone);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -117,7 +120,7 @@ class _PinPageState extends State<PinPage> {
                   children: [
                     // Spacer(),
                     SizedBox(
-                      height: 25.h,
+                      height: 29.h,
                     ),
                     SvgPicture.asset(
                       'assets/image/code_top.svg',
@@ -400,7 +403,6 @@ class _PinPageState extends State<PinPage> {
   }
 
   void signIn() async {
-
     print("verificationID");
     print(verificationID);
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -412,24 +414,44 @@ class _PinPageState extends State<PinPage> {
         final MyUser user = await UserManager()
             .postUser(widget.myPhone, widget.code, widget.name);
         print("user");
-        print(user.id);
-        if(user.isNew==0){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ComplateInfo(
-                      id: user.id,
-                    )));}
-        else{
-          Preferences.instance.setUser(user).whenComplete(() =>  Navigator.push(
+        print(user.isNew);
+        if (user.isNew == 0) {
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) =>
+          Navigator.push(context, PageRouteBuilder(pageBuilder:
+              (BuildContext context, Animation<double> animation,
+                  Animation<double> secondaryAnimation) {
+            return ComplateInfo(
+              id: user.id,
+            );
+          }));
+        } else {
+          // Preferences.instance.setUser(user).whenComplete(() =>
+
+          Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => Options(
+              PageRouteBuilder(
+                pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) {
+                  return Options(
                     gender: user.gender!,
                     id: user.id,
                     progress: 0,
-                  ))));
-
+                  );
+                },
+                transitionDuration: Duration.zero,
+              ));
+          //);
+          //  Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => Options(
+          //               gender: user.gender!,
+          //               id: user.id,
+          //               progress: 0,
+          //             ))));
         }
         // if(user.isNew == 1){
 

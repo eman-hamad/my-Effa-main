@@ -24,6 +24,9 @@ class TextFieldLogin extends StatelessWidget {
       children: [
         Expanded(
           child: TextFormField(
+            // scrollPadding: EdgeInsets.only(
+            //   bottom: MediaQuery.of(context).viewInsets.bottom
+            // ),
             // controller: phoneController,
             enabled: false,
             decoration: InputDecoration(
@@ -39,6 +42,9 @@ class TextFieldLogin extends StatelessWidget {
         const SizedBox(height: 25, child: VerticalDivider(color: Colors.black)),
         Expanded(
           child: TextFormField(
+                    scrollPadding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom +160.h
+            ),
             controller: controller,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             // validator:  (text) {

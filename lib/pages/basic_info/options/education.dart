@@ -13,9 +13,8 @@ import '../../../constants.dart';
 import '../../../managers/question_manager.dart';
 import '../../../models/question_model.dart';
 import '../../../modules/basic_info_provider.dart';
-import '../religion_info.dart';
 import 'options.dart';
-import '../birthdate_info.dart';
+
 
 class Education extends StatelessWidget {
   Education(

@@ -1,7 +1,7 @@
 import 'package:effah/components/reusable_widgets/rounded_button.dart';
 import 'package:effah/constants.dart';
 import 'package:effah/modules/app/app_state_model.dart';
-import 'package:effah/pages/basic_info/gender.dart';
+import 'package:effah/pages/basic_info/basic_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -279,7 +279,7 @@ class _ComplateInfoState extends State<ComplateInfo> {
                       _doSomething;
                       //model.completAccount();
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Gender(id: widget.id,)));
+                          MaterialPageRoute(builder: (context) => BasicInfo()));
                     }
                   : () {},
               raduis: 10,

@@ -17,7 +17,7 @@ import '../../../components/reusable_widgets/wait_bottomsheet.dart';
 import '../../../managers/user_manager.dart';
 import '../../../models/user_model.dart';
 import '../../../modules/basic_info_provider.dart';
-import '../birthdate_info.dart';
+
 
 class PersonalPic extends StatefulWidget {
   PersonalPic({Key? key, required this.progress ,required this.id,

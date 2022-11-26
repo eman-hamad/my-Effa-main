@@ -21,6 +21,9 @@ class CodeInput extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.1,
       child: TextField(
+        scrollPadding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom +200.h
+            ),
         cursorColor: basicPink,
         controller: controller,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
