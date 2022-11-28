@@ -62,7 +62,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("login");
     double height = MediaQuery.of(context).size.height;
     // final model = Provider.of<AppStateProvider>(context, listen: false);
     //  FocusScopeNode currentFocus = FocusScope.of(context);
@@ -151,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Expanded(
                               child: TextFieldLogin(
+
                                 txt: countryCode == ""
                                     ? countryPicker.countryCodes[63].dialCode
                                     : countryCode,
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                         )),
                   ),
 
-                  is_pressed 
+                  is_pressed
                       ? SizedBox(
                           //height: 44.h,
                           width: 148.w,

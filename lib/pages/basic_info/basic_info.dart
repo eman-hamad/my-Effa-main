@@ -1,9 +1,11 @@
 import 'package:effah/components/birth_date.dart';
+import 'package:effah/components/custom_page_view.dart';
 import 'package:effah/components/gender.dart';
 import 'package:effah/components/naming.dart';
 import 'package:effah/components/nationality_info.dart';
 import 'package:effah/components/religion.dart';
 import 'package:effah/constants.dart';
+import 'package:effah/models/controller_reg.dart';
 import 'package:effah/modules/app/app_state_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,14 +73,22 @@ class BasicInfo extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
-                    child: LinearProgressIndicator(
-                      // semanticsValue: '1.0',
-                      minHeight: 9.h,
-                      backgroundColor: bgrey,
-                      valueColor:
-                          const AlwaysStoppedAnimation<Color>(basicPink),
-                      value: Provider.of<InfoProvider>(context, listen: false)
-                          .progressValue,
+                    child: TweenAnimationBuilder(
+                      duration: const Duration(milliseconds: 250),
+                      tween: Tween(
+                        begin: 0.0,
+                        end:  Provider.of<ControllerReg>(context, listen: true)
+                            .position,
+                      ),
+                      builder:(context, val,_)=> LinearProgressIndicator(
+                        // semanticsValue: '1.0',
+
+                        minHeight: 9.h,
+                        backgroundColor: bgrey,
+                        valueColor:
+                            const AlwaysStoppedAnimation<Color>(basicPink),
+                        value: val as double
+                      ),
                     ),
                   )),
             ),
@@ -94,6 +104,11 @@ class BasicInfo extends StatelessWidget {
           //               ? BirthDate()
           //               : Text("data");
         // })
+           Expanded(
+             // color: Colors.lightBlue,
+             // width: MediaQuery.of(context).size.width*0.9,
+               // height: MediaQuery.of(context).size.width*0.9,
+               child: CustomRegisterView())
         ]),
       ),
     );

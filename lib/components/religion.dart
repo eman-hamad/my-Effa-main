@@ -1,3 +1,4 @@
+import 'package:effah/models/controller_reg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,7 @@ class Religion extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
+                            final ref = Provider.of<ControllerReg>(context,listen: false);
                             tapIndex = index;
 
                             press = true;
@@ -72,6 +74,10 @@ class Religion extends StatelessWidget {
 
                             _updateProgress(context);
                             postReligion(index + 1, context);
+                            ref.finalTap(
+                                context,
+
+                            );
                           },
                           child: Padding(
                             padding: EdgeInsets.only(

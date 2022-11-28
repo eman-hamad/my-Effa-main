@@ -1,4 +1,5 @@
 import 'package:effah/constants.dart';
+import 'package:effah/models/controller_reg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,6 +30,7 @@ class Gender extends StatelessWidget{
               Expanded(
                 child: GestureDetector(
                   onTap: () {
+                    final ref = Provider.of<ControllerReg>(context,listen: false);
                     Provider.of<InfoProvider>(context, listen: false).isFemale =
                         true;
 
@@ -38,6 +40,7 @@ class Gender extends StatelessWidget{
                     Provider.of<InfoProvider>(context, listen: false).rebuild();
                     _updateProgress(context);
                     postGender(2, context);
+                    ref.onTap(0.25);
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -92,6 +95,7 @@ class Gender extends StatelessWidget{
               Expanded(
                 child: GestureDetector(
                   onTap: () {
+                    final ref = Provider.of<ControllerReg>(context,listen: false);
                     Provider.of<InfoProvider>(context, listen: false).pressed1 =
                         true;
 
@@ -103,7 +107,7 @@ class Gender extends StatelessWidget{
                             .loading;
                     Provider.of<InfoProvider>(context, listen: false).rebuild();
                     _updateProgress(context);
-
+                    ref.onTap(0.25);
                     postGender(1, context);
                   },
                   child: Card(

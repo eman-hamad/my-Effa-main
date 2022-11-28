@@ -1,5 +1,6 @@
 import 'package:effah/components/reusable_widgets/rounded_button.dart';
 import 'package:effah/constants.dart';
+import 'package:effah/models/controller_reg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,8 +15,7 @@ class BirthDate extends StatelessWidget {
    DateTime myDate = DateTime(2002);
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
+    return  Column(
         children: [
           Center(
               child: Padding(
@@ -83,10 +83,12 @@ class BirthDate extends StatelessWidget {
                   ),
                   raduis: 10,
                   myfun: () {
+                    final ref = Provider.of<ControllerReg>(context,listen: false);
                     // print("object");
                     // print(myDate);
                     _updateProgress(context);
                     postBirthDate(myDate.toString(), context);
+                    ref.onTap(0.74);
                   },
                   color: basicPink),
             ),
@@ -127,7 +129,6 @@ class BirthDate extends StatelessWidget {
                 ),
           )
         ],
-      ),
     );
    
   }

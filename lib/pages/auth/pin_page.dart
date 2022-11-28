@@ -36,9 +36,6 @@ class _PinPageState extends State<PinPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("code");
-    print(widget.code);
-    print(widget.myPhone);
     verifyPhone();
   }
 
@@ -99,10 +96,6 @@ class _PinPageState extends State<PinPage> {
     String strDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = strDigits(myDuration.inMinutes.remainder(60));
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
-    print("wowwww");
-    print(widget.code);
-    print(widget.name);
-    print(widget.myPhone);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -120,7 +113,7 @@ class _PinPageState extends State<PinPage> {
                   children: [
                     // Spacer(),
                     SizedBox(
-                      height: 29.h,
+                      height: 25.h,
                     ),
                     SvgPicture.asset(
                       'assets/image/code_top.svg',
@@ -338,16 +331,11 @@ class _PinPageState extends State<PinPage> {
   }
 
   void verifyPhone() async {
-    print("full phone");
-    print("${widget.code}${widget.myPhone}");
     await auth.verifyPhoneNumber(
       timeout: const Duration(minutes: 2),
       phoneNumber: "${widget.code}${widget.myPhone}",
       verificationCompleted: (PhoneAuthCredential credential) async {},
       verificationFailed: (FirebaseAuthException e) {
-        print("faillll");
-        print(e.message);
-        print(e.code);
         switch (e.code) {
           case "invalid-verification-code":
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -403,6 +391,7 @@ class _PinPageState extends State<PinPage> {
   }
 
   void signIn() async {
+
     print("verificationID");
     print(verificationID);
     PhoneAuthCredential credential = PhoneAuthProvider.credential(

@@ -1,5 +1,6 @@
 import 'package:effah/constants.dart';
 import 'package:effah/managers/nationality_manager.dart';
+import 'package:effah/models/controller_reg.dart';
 import 'package:effah/modules/app/app_state_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,7 @@ class _NationalityInfoState extends State<NationalityInfo> {
   Widget build(BuildContext context) {
     myNationalityList = NationalityManager().getNationality();
 
-    return Expanded(
-      child: Column(children: [
+    return Column(children: [
        
         Center(
             child: Padding(
@@ -121,6 +121,7 @@ class _NationalityInfoState extends State<NationalityInfo> {
                                   if (editingController.text.isEmpty) {
                                     return InkWell(
                                       onTap: () {
+                                        final ref = Provider.of<ControllerReg>(context,listen: false);
                                         tapIndex = index;
                                         // _setIconVisible(visible);
                                         // print("before");
@@ -138,6 +139,7 @@ class _NationalityInfoState extends State<NationalityInfo> {
                                         _updateProgress(context);
                                         postNationality(
                                             snapshot.data![index].id, context);
+                                        ref.onTap(0.85);
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.only(
@@ -189,7 +191,8 @@ class _NationalityInfoState extends State<NationalityInfo> {
                                     return InkWell(
                                       onTap: () {
                                         tapIndex = index;
-    
+                                        final ref = Provider.of<ControllerReg>(context,listen: false);
+
                                         press = true;
     
                                         Provider.of<InfoProvider>(context,
@@ -200,6 +203,7 @@ class _NationalityInfoState extends State<NationalityInfo> {
                                         _updateProgress(context);
                                         postNationality(
                                             snapshot.data![index].id, context);
+                                        ref.onTap(0.85);
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.only(
@@ -247,7 +251,7 @@ class _NationalityInfoState extends State<NationalityInfo> {
             ),
           ),
         ),
-      ]),
+      ]
     );
   }
 
