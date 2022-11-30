@@ -1,4 +1,5 @@
 import 'package:effah/constants.dart';
+import 'package:effah/models/controller_reg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,10 +7,10 @@ import 'package:provider/provider.dart';
 
 import '../modules/basic_info_provider.dart';
 
-class Gender extends StatelessWidget{
+class Gender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   return Column(
+    return Column(
       children: [
         Center(
             child: Padding(
@@ -29,6 +30,8 @@ class Gender extends StatelessWidget{
               Expanded(
                 child: GestureDetector(
                   onTap: () {
+                    final ref =
+                        Provider.of<ControllerReg>(context, listen: false);
                     Provider.of<InfoProvider>(context, listen: false).isFemale =
                         true;
 
@@ -37,7 +40,11 @@ class Gender extends StatelessWidget{
                             .loading;
                     Provider.of<InfoProvider>(context, listen: false).rebuild();
                     _updateProgress(context);
-                    postGender(2, context);
+                    // postGender(2, context);
+                    ref.onTap(0.25);
+                    ControllerReg.gender = 2;
+                    print("ControllerReg.gender ");
+                    print(ControllerReg.gender);
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -92,6 +99,8 @@ class Gender extends StatelessWidget{
               Expanded(
                 child: GestureDetector(
                   onTap: () {
+                    final ref =
+                        Provider.of<ControllerReg>(context, listen: false);
                     Provider.of<InfoProvider>(context, listen: false).pressed1 =
                         true;
 
@@ -103,8 +112,11 @@ class Gender extends StatelessWidget{
                             .loading;
                     Provider.of<InfoProvider>(context, listen: false).rebuild();
                     _updateProgress(context);
-
-                    postGender(1, context);
+                    ref.onTap(0.25);
+                    // postGender(1, context);
+                    ControllerReg.gender = 1;
+                    print("ControllerReg.gender ");
+                    print(ControllerReg.gender);
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -166,30 +178,31 @@ class Gender extends StatelessWidget{
       ],
     );
   }
-void postGender(
-    int gend,
-    BuildContext context,
-  ) async {
-    //final MyUser user = await UserManager().updateUser(id, gender: gend);
-    //  if (user.gender != 0) {
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) =>
-    // Navigator.push(context, PageRouteBuilder(pageBuilder:
-    //     (BuildContext context, Animation<double> animation,
-    //         Animation<double> secondaryAnimation) {
-    //   return NamingInfo(
-    //       gender: user.gender,
-    //       id: widget.id,
-    //       progress: Provider.of<InfoProvider>(context, listen: false)
-    //           .progressValue);
-    // }));
-    // Provider.of<InfoProvider>(context, listen: false).index = 1;
-    // Provider.of<InfoProvider>(context, listen: false).rebuild();
-    //}
-  }
-void _updateProgress(BuildContext context) {
+
+  // void postGender(
+  //   int gend,
+  //   BuildContext context,
+  // ) async {
+  //   //final MyUser user = await UserManager().updateUser(id, gender: gend);
+  //   //  if (user.gender != 0) {
+  //   // Navigator.push(
+  //   //     context,
+  //   //     MaterialPageRoute(
+  //   //         builder: (context) =>
+  //   // Navigator.push(context, PageRouteBuilder(pageBuilder:
+  //   //     (BuildContext context, Animation<double> animation,
+  //   //         Animation<double> secondaryAnimation) {
+  //   //   return NamingInfo(
+  //   //       gender: user.gender,
+  //   //       id: widget.id,
+  //   //       progress: Provider.of<InfoProvider>(context, listen: false)
+  //   //           .progressValue);
+  //   // }));
+  //   // Provider.of<InfoProvider>(context, listen: false).index = 1;
+  //   // Provider.of<InfoProvider>(context, listen: false).rebuild();
+  //   //}
+  // }
+  void _updateProgress(BuildContext context) {
     //  Provider.of<InfoProvider>(context, listen: false).updateProgress();
     Provider.of<InfoProvider>(context, listen: false).progressValue += 0.15;
     Provider.of<InfoProvider>(context, listen: false).rebuild();

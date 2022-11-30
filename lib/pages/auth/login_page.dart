@@ -222,6 +222,9 @@ class _LoginPageState extends State<LoginPage> {
                                     },
                                     transitionDuration: Duration.zero,
                                   ));
+                                   setState(() {
+                                is_pressed = true;
+                              });
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(

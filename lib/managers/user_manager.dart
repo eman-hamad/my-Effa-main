@@ -50,8 +50,8 @@ class UserManager extends ChangeNotifier {
       String? frName,
       String? lsName,
       String? birth_date,
-      String? country_id,
-      String? religion_id,
+      int? country_id,
+      int? religion_id,
       String? about_you,
       String? about_partner}) async {
     final response = await http.post(

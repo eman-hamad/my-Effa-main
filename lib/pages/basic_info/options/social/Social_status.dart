@@ -63,10 +63,10 @@ class SocialStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     //  final model = Provider.of<AppStateProvider>(context, listen: false);
 
-    maleQuestionList = QuestionManager().getQuestions(id!, 2, 1);
-    femaleQuestionList = QuestionManager().getQuestions(id!, 2, 2);
+    maleQuestionList = QuestionManager().getQuestions(2, 2, 1);
+    femaleQuestionList = QuestionManager().getQuestions(2, 2, 2);
     // oneQuestion = QuestionManager().getQuestion(8, 2, 2, 22);
-     Future<List<Question>> list= QuestionManager().getQuestions(id!, 2, gender);
+     Future<List<Question>> list= QuestionManager().getQuestions(2, 2, 2);
     
     list.then((value) {
       print("gender ");

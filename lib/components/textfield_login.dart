@@ -31,6 +31,7 @@ class TextFieldLogin extends StatelessWidget {
             enabled: false,
             decoration: InputDecoration(
               border: InputBorder.none,
+
               hintText: txt,
               hintStyle:const TextStyle(color: black),
               filled: false,
