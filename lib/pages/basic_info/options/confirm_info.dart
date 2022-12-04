@@ -24,11 +24,11 @@ import '../../../preferences/preferences.dart';
 
 class ConfirmInfo extends StatefulWidget {
   ConfirmInfo({Key? key,
-    required this.progress,
+    
     required this.id,
     required this.gender})
       : super(key: key);
-  late double progress;
+
   int? id;
   int gender;
 
@@ -37,7 +37,7 @@ class ConfirmInfo extends StatefulWidget {
 }
 
 class _ConfirmInfoState extends State<ConfirmInfo> {
-  late double _progressValue = widget.progress;
+
   File image1 = File("");
   File image2 = File("");
   File image3 = File("");

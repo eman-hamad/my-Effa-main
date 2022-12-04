@@ -20,11 +20,11 @@ import 'options.dart';
 class Diseases extends StatelessWidget {
   Diseases(
       {Key? key,
-      required this.progress,
+
       required this.id,
       required this.gender})
       : super(key: key);
-  late double progress;
+ 
   int? id;
   int gender;
 
@@ -39,7 +39,7 @@ class Diseases extends StatelessWidget {
 
   bool visible = false;
 
-  late double _progressValue = progress;
+
 
   TextEditingController editingController = TextEditingController();
 
@@ -158,7 +158,7 @@ list.then((value) {
                                 child: TextQuestion(
                                     id: id,
                                     myLength: gender == 1 ? myLen : femaleLen,
-                                    progress: _progressValue,
+                                    
                                     questions: gender == 1
                                         ? maleQuestionList
                                         : femaleQuestionList,
@@ -174,7 +174,7 @@ list.then((value) {
                                     editingController: editingController,
                                     id: id,
                                     myLength: gender == 1 ? myLen : femaleLen,
-                                    progress: _progressValue,
+                                  
                                     questions: gender == 1
                                         ? maleQuestionList
                                         : femaleQuestionList,
@@ -187,7 +187,7 @@ list.then((value) {
                                 child: MultipleChoices(
                                     id: id,
                                     myLength: gender == 1 ? myLen : femaleLen,
-                                    progress: _progressValue,
+                            
                                     questions: gender == 1
                                         ? maleQuestionList
                                         : femaleQuestionList,
@@ -513,7 +513,7 @@ list.then((value) {
                           builder: (context) => Options(
                                 gender: 0,
                                 id: id,
-                                progress: _progressValue,
+                             
                               )));
                 }),
                 child: Text(

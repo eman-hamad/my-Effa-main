@@ -20,9 +20,9 @@ import '../../../modules/basic_info_provider.dart';
 
 
 class PersonalPic extends StatefulWidget {
-  PersonalPic({Key? key, required this.progress ,required this.id,
+  PersonalPic({Key? key ,required this.id,
     required this.gender}) : super(key: key);
-  late double progress;
+  
   int? id;
   int gender;
   @override

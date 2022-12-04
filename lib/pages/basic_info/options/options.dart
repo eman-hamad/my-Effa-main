@@ -10,7 +10,7 @@ import 'package:effah/pages/basic_info/options/education.dart';
 import 'package:effah/pages/basic_info/options/family.dart';
 import 'package:effah/pages/basic_info/options/father_info.dart';
 import 'package:effah/pages/basic_info/options/message.dart';
-import 'package:effah/pages/basic_info/options/no_notifications.dart';
+import 'package:effah/components/no_notifications.dart';
 import 'package:effah/pages/basic_info/options/personal_pic.dart';
 import 'package:effah/pages/basic_info/options/diseases.dart';
 import 'package:effah/pages/basic_info/options/social/Social_status.dart';
@@ -30,14 +30,11 @@ import 'confirm_info.dart';
 import 'view_my_profile.dart';
 
 class Options extends StatefulWidget {
-  Options(
-      {Key? key,
-      required this.progress,
-      required this.id,
-      required this.gender})
+  Options({Key? key, required this.id, required this.gender, this.isComplete})
       : super(key: key);
-  late double progress;
+
   int gender;
+  int? isComplete;
   int? id;
   @override
   State<Options> createState() => _OptionsState();
@@ -84,11 +81,7 @@ class _OptionsState extends State<Options> {
     Timer(const Duration(seconds: 3), () {
       Navigator.pop(context);
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Message(
-                    progress: widget.progress,
-                  )));
+          context, MaterialPageRoute(builder: (context) => Message()));
     });
     // Timer(const Duration(seconds: 3), () {
     //   Navigator.pop(context);
@@ -295,7 +288,6 @@ class _OptionsState extends State<Options> {
                                   builder: (context) => SocialStatus(
                                         gender: widget.gender,
                                         id: widget.id,
-                                        progress: widget.progress,
                                       )));
                         } else if (index == 0) {
                           // Navigator.push(
@@ -317,7 +309,6 @@ class _OptionsState extends State<Options> {
                                   builder: (context) => Diseases(
                                         gender: widget.gender,
                                         id: widget.id!,
-                                        progress: widget.progress,
                                       )));
                         } else if (index == 3) {
                           Navigator.push(
@@ -326,7 +317,6 @@ class _OptionsState extends State<Options> {
                                   builder: (context) => Education(
                                         gender: widget.gender,
                                         id: widget.id!,
-                                        progress: widget.progress,
                                       )));
                         } else if (index == 4) {
                           Navigator.push(
@@ -335,7 +325,6 @@ class _OptionsState extends State<Options> {
                                   builder: (context) => Family(
                                         gender: widget.gender,
                                         id: widget.id!,
-                                        progress: widget.progress,
                                       )));
                         } else if (index == 7) {
                           Navigator.push(
@@ -344,7 +333,6 @@ class _OptionsState extends State<Options> {
                                   builder: (context) => ConfirmInfo(
                                         id: widget.id,
                                         gender: widget.gender,
-                                        progress: widget.progress,
                                       )));
                         } else if (index == 6) {
                           widget.gender == 1
@@ -354,7 +342,6 @@ class _OptionsState extends State<Options> {
                                       builder: (context) => PersonalPic(
                                             id: widget.id,
                                             gender: widget.gender,
-                                            progress: widget.progress,
                                           )))
                               : Navigator.push(
                                   context,
@@ -362,7 +349,6 @@ class _OptionsState extends State<Options> {
                                       builder: (context) => FatherInfo(
                                             gender: widget.gender,
                                             id: widget.id,
-                                            progress: widget.progress,
                                           )));
                         } else if (index == 5) {
                           Navigator.push(
@@ -602,138 +588,149 @@ class _OptionsState extends State<Options> {
                     //////////////////////////////////////
                     // _startTimer();
                     //////////////////////////////////
-                    ///
-                    showDialog(
-                        context: context,
-                        // barrierColor: red,
-                        builder: (BuildContext context) {
-                          return BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                            child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Card(
-                                        color: white,
-                                        elevation: 6,
-                                        shadowColor: black,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              // vertical: 10.h,
-                                              left: 20.w,
-                                              right: 20.w,
-                                              top: 25.h,
-                                              bottom: 30.h),
-                                          child: Column(children: [
-                                            // ImageIcon(
-                                            SvgPicture.asset(
-                                              "assets/image/messagee.svg",
-                                              width: 295.86.w,
-                                              // height: 100.h,
-                                            ),
-                                            //   color: Color(0xffFF8297),
-                                            //   // size: 150,
-                                            // ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 20.0.h),
-                                              child: Text(
-                                                "تم الأرسال",
-                                                style: TextStyle(
-                                                    color: basicPink,
-                                                    fontSize: 20.sp,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                    print("widget.isComplete ");
+                    print(widget.isComplete);
+                    if (widget.isComplete == 0) {
+                      showDialog(
+                          context: context,
+                          // barrierColor: red,
+                          builder: (BuildContext context) {
+                            return BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                              child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.w),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Card(
+                                          color: white,
+                                          elevation: 6,
+                                          shadowColor: black,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                // vertical: 10.h,
+                                                left: 20.w,
+                                                right: 20.w,
+                                                top: 25.h,
+                                                bottom: 30.h),
+                                            child: Column(children: [
+                                              // ImageIcon(
+                                              SvgPicture.asset(
+                                                "assets/image/messagee.svg",
+                                                width: 295.86.w,
+                                                // height: 100.h,
                                               ),
-                                            ),
-                                            Directionality(
-                                              textDirection: TextDirection.rtl,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom: 10.h),
-                                                child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "في انتظار مراجعة الحساب الخاص بك برجاء الانتظار حتي يتم الانتهاء",
-                                                    style: TextStyle(
-                                                        fontSize: 16.sp),
-                                                    textAlign: TextAlign.center,
+                                              //   color: Color(0xffFF8297),
+                                              //   // size: 150,
+                                              // ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 20.0.h),
+                                                child: Text(
+                                                  "تم الأرسال",
+                                                  style: TextStyle(
+                                                      color: basicPink,
+                                                      fontSize: 20.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              Directionality(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 10.h),
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "في انتظار مراجعة الحساب الخاص بك برجاء الانتظار حتي يتم الانتهاء",
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 25.h,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 10.h, bottom: 10.h),
-                                              child: Text(
-                                                "يمكنك التواصل من خلال",
+                                              SizedBox(
+                                                height: 25.h,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 10.h, bottom: 10.h),
+                                                child: Text(
+                                                  "يمكنك التواصل من خلال",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16.sp),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 7.h,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 10.h, bottom: 10.h),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    // ImageIcon(
+                                                    SvgPicture.asset(
+                                                      "assets/icon/icon1.svg",
+                                                      width: 46.w,
+                                                      height: 46.h,
+                                                    ),
+
+                                                    // size: 150,
+                                                    // ),
+                                                    SizedBox(
+                                                      width: 15.w,
+                                                    ),
+                                                    SvgPicture.asset(
+                                                      "assets/icon/icon2.svg",
+                                                      width: 46.w,
+                                                      height: 46.h,
+                                                    ),
+                                                    // ImageIcon(
+
+                                                    // size: 150,
+                                                    // ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 25.h,
+                                              ),
+                                              Text(
+                                                " * عادة مايتم المراجعة خلال 24 ساعة من فضلك كن صبورا  *",
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16.sp),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 7.h,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 10.h, bottom: 10.h),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  // ImageIcon(
-                                                  SvgPicture.asset(
-                                                    "assets/icon/icon1.svg",
-                                                    width: 46.w,
-                                                    height: 46.h,
-                                                  ),
-
-                                                  // size: 150,
-                                                  // ),
-                                                  SizedBox(
-                                                    width: 15.w,
-                                                  ),
-                                                  SvgPicture.asset(
-                                                    "assets/icon/icon2.svg",
-                                                    width: 46.w,
-                                                    height: 46.h,
-                                                  ),
-                                                  // ImageIcon(
-
-                                                  // size: 150,
-                                                  // ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 25.h,
-                                            ),
-                                            Text(
-                                              " * عادة مايتم المراجعة خلال 24 ساعة من فضلك كن صبورا  *",
-                                              style: TextStyle(
-                                                  color: gmGrey,
-                                                  fontSize: 11.sp),
-                                            )
-                                          ]),
+                                                    color: gmGrey,
+                                                    fontSize: 11.sp),
+                                              )
+                                            ]),
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                    ])),
-                          );
-                        });
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                      ])),
+                            );
+                          });
+                    } else {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MyProfile(gender: widget.gender,)));
+                   }
                     ///////////////////
                     // Navigator.push(
                     //     context,

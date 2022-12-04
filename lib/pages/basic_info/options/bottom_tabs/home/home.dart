@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:effah/pages/basic_info/options/no_notifications.dart';
+import 'package:effah/components/no_notifications.dart';
 // import 'package:carousel1/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +13,11 @@ import 'attemps.dart';
 bool show = false;
 
 class Home extends StatefulWidget {
-  Home({Key? key, required this.progress}) : super(key: key);
-  late double progress;
+  Home({
+    Key? key,
+    required this.gender
+  }) : super(key: key);
+  int gender;
   @override
   State<Home> createState() => _HomeState();
 }
@@ -136,7 +139,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
 //These are initialize at the top
 
-    return Scaffold(
+    return
+        widget.gender==2 ? NoNotifications()
+       : Scaffold(
       //  resizeToAvoidBottomInset: true,
       backgroundColor: bGround,
       body: SingleChildScrollView(
@@ -1271,8 +1276,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => NoNotifications(
-                                      progress: widget.progress)));
+                                  builder: (context) => NoNotifications()));
                         },
                         child: Directionality(
                           textDirection: TextDirection.rtl,

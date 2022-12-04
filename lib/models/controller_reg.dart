@@ -37,10 +37,12 @@ class ControllerReg extends ChangeNotifier {
         lsName: ControllerReg.lname,
         birth_date: ControllerReg.birth,
         country_id: ControllerReg.nationaityID);
+      
     Navigator.push(
         ctx,
         MaterialPageRoute(
-            builder: (context) => Options(progress: 0, id: id, gender: ControllerReg.gender!)));
+            builder: (context) => Options( id: id, gender: ControllerReg.gender! , 
+            isComplete:  user.isComplet,)));
     notifyListeners();
   }
 

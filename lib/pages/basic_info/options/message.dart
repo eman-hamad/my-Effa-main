@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:effah/pages/basic_info/options/no_notifications.dart';
+import 'package:effah/components/no_notifications.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
@@ -10,8 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../constants.dart';
 
 class Message extends StatelessWidget {
-  Message({Key? key, required this.progress}) : super(key: key);
-  late double progress;
+  Message({Key? key, }) : super(key: key);
+ 
 
   void _startTimer(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
@@ -20,7 +20,7 @@ class Message extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => NoNotifications(
-                    progress: progress,
+                  
                   )));
     });
   }

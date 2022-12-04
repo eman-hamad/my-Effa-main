@@ -19,11 +19,11 @@ import 'options.dart';
 class Family extends StatelessWidget {
   Family(
       {Key? key,
-      required this.progress,
+      
       required this.id,
       required this.gender})
       : super(key: key);
-  late double progress;
+
   int? id;
   int gender;
 
@@ -31,7 +31,7 @@ class Family extends StatelessWidget {
   bool isChecked = false;
   late bool _loading;
 
-  late double _progressValue = progress;
+ 
   TextEditingController editingController = TextEditingController();
 
   int tapIndex = 0;
@@ -165,7 +165,7 @@ class Family extends StatelessWidget {
                             child: TextQuestion(
                                 id: id,
                                 myLength: gender == 1 ? myLen : femaleLen,
-                                progress: _progressValue,
+                             
                                 questions: gender == 1
                                     ? maleQuestionList
                                     : femaleQuestionList,
@@ -181,7 +181,7 @@ class Family extends StatelessWidget {
                                 editingController: editingController,
                                 id: id,
                                 myLength: gender == 1 ? myLen : femaleLen,
-                                progress: _progressValue,
+                          
                                 questions: gender == 1
                                     ? maleQuestionList
                                     : femaleQuestionList,
@@ -194,7 +194,7 @@ class Family extends StatelessWidget {
                             child: MultipleChoices(
                                 id: id,
                                 myLength: gender == 1 ? myLen : femaleLen,
-                                progress: _progressValue,
+                             
                                 questions: gender == 1
                                     ? maleQuestionList
                                     : femaleQuestionList,
@@ -486,7 +486,7 @@ class Family extends StatelessWidget {
                     builder: (context) => Options(
                           gender: 0,
                           id: id,
-                          progress: _progressValue,
+                         
                         )));
           }),
           child: Text(

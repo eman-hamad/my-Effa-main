@@ -11,7 +11,7 @@ import '../../models/question_model.dart';
 class OneChoice extends StatefulWidget {
   OneChoice(
       {Key? key,
-      required this.progress,
+      
       this.questions,
       required this.myIndex,
       required this.id,
@@ -21,7 +21,7 @@ class OneChoice extends StatefulWidget {
       required this.editingController,
       required this.myLength})
       : super(key: key);
-  late double progress;
+ 
   int myIndex;
   int myLength;
   double? height;
@@ -41,7 +41,7 @@ class _OneChoiceState extends State<OneChoice> {
 
   bool press = false;
 
-  late double _progressValue = widget.progress;
+ 
 
   int tapIndex = 0;
 

@@ -454,7 +454,7 @@ class _PinPageState extends State<PinPage> {
             .postUser(widget.myPhone, widget.code, widget.name);
         print("user");
         print(user.isNew);
-        if (user.isNew == 0) {
+        if (user.isNew == 1) {
           // Navigator.push(
           //     context,
           //     MaterialPageRoute(
@@ -480,7 +480,8 @@ class _PinPageState extends State<PinPage> {
                   return Options(
                     gender: user.gender!,
                     id: user.id,
-                    progress: 0,
+                    isComplete: user.isComplet,
+               
                   );
                 },
                 transitionDuration: Duration.zero,
