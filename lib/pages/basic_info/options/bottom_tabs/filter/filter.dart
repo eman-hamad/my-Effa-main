@@ -1,6 +1,7 @@
 import 'package:effah/pages/basic_info/options/bottom_tabs/filter/filter_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../constants.dart';
 
@@ -12,7 +13,7 @@ class Filter extends StatelessWidget {
     return Scaffold(
       backgroundColor: bGround,
       body: Padding(
-        padding:  EdgeInsets.symmetric(vertical: 25.0.h),
+        padding: EdgeInsets.symmetric(vertical: 25.0.h),
         child: Center(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -29,10 +30,8 @@ class Filter extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12), color: red),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
-                      Image(
-                        image: AssetImage("././assets/icon/filter_icon.png"),
-                      ),
+                    children: [
+                      SvgPicture.asset("././assets/icon/filter_icon.svg"),
                       SizedBox(
                         width: 5.w,
                       ),
@@ -48,12 +47,12 @@ class Filter extends StatelessWidget {
                 ),
               ),
             ]),
-            const Image(image: AssetImage("././assets/image/filter.png")),
+            SvgPicture.asset("././assets/image/filter.svg"),
             SizedBox(
               height: 20.h,
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 30.0.w),
+              padding: EdgeInsets.symmetric(horizontal: 30.0.w),
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
@@ -62,15 +61,13 @@ class Filter extends StatelessWidget {
                       width: 2.w,
                     )),
                 child: TextButton(
-                  
                     onPressed: () {},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(
-                          image: AssetImage("././assets/icon/filter_icon.png"),
-                          width: 30,
-                        ),
+                        SvgPicture.asset("././assets/icon/filter_icon.svg"),
+                        // width: 30,
+
                         SizedBox(
                           width: 10.w,
                         ),
@@ -86,15 +83,10 @@ class Filter extends StatelessWidget {
                         ),
                         Text(
                           "اتاحة الفلتر لمدة7أيام  ",
-                          style: TextStyle(
-                              color: basicPink,
-                          
-                              fontSize: 14.sp),
+                          style: TextStyle(color: basicPink, fontSize: 14.sp),
                         ),
-                        Image(
-                          image: AssetImage("././assets/icon/tab3.png"),
-                          color: basicPink,
-                          width: 30,
+                        SvgPicture.asset(
+                          "././assets/icon/tab3.svg",
                         ),
                       ],
                     )),
@@ -104,7 +96,7 @@ class Filter extends StatelessWidget {
               height: 15.h,
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 30.0.w),
+              padding: EdgeInsets.symmetric(horizontal: 30.0.w),
               child: Container(
                 decoration: BoxDecoration(
                     color: basicPink,
@@ -123,10 +115,7 @@ class Filter extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(
-                          image: AssetImage("././assets/icon/filter_icon.png"),
-                          width: 30,
-                        ),
+                        SvgPicture.asset("././assets/icon/filter_icon.svg"),
                         SizedBox(
                           width: 10.w,
                         ),
@@ -142,14 +131,11 @@ class Filter extends StatelessWidget {
                         ),
                         Text(
                           "اتاحة الفلتر لمدة15أيام  ",
-                          style: TextStyle(
-                              color: white,
-                              fontSize: 14.sp),
+                          style: TextStyle(color: white, fontSize: 14.sp),
                         ),
-                        Image(
-                          image: AssetImage("././assets/icon/tab3.png"),
+                        SvgPicture.asset(
+                          "././assets/icon/tab3.svg",
                           color: white,
-                          width: 30,
                         ),
                       ],
                     )),

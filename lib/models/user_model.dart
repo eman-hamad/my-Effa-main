@@ -6,7 +6,7 @@ class MyUser {
   String? idNumber;
   String? image;
   int? isLogin;
-  String? isComplet;
+  int? isComplet;
   int? gender;
   String? isBlock;
   String? isWait;
@@ -68,7 +68,7 @@ class MyUser {
     // idNumber = json['idNumber'] != null ? json['idNumber'] :null;
     // image = json['image'] != null ? json['image'] :null;
     // isLogin = json['is_login'] != null ? json['is_login'] : null;
-    // isComplet = json['is_complet'] != null ? json['is_complet'] :null;
+    isComplet = json['is_complet'] != null ? json['is_complet'] :null;
     gender = json['gender'] != null ? json['gender'] : null;
     // isBlock = json['is_block'] != null ? json['is_block'] : null;
     // isWait = json['is_wait'] != null ? json['is_wait'] :null;

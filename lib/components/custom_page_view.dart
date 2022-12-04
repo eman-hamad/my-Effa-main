@@ -6,8 +6,10 @@ import 'package:effah/components/religion.dart';
 import 'package:effah/models/controller_reg.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 class CustomRegisterView extends StatelessWidget {
-  const CustomRegisterView({Key? key}) : super(key: key);
+   CustomRegisterView({Key? key, required this.id}) : super(key: key);
+  int id;
   @override
   Widget build(BuildContext context) {
     final ref = Provider.of<ControllerReg>(context);
@@ -19,7 +21,7 @@ class CustomRegisterView extends StatelessWidget {
         Naming(),
         BirthDate(),
         NationalityInfo(),
-        Religion()
+        Religion(id)
       ],
     );
   }

@@ -13,13 +13,13 @@ import '../../models/question_model.dart';
 class MultipleChoices extends StatelessWidget {
   MultipleChoices(
       {Key? key,
-      required this.progress,
+   
       this.questions,
       required this.myIndex,
       required this.id,
       required this.myLength})
       : super(key: key);
-  late double progress;
+  
   int myIndex;
   int myLength;
   int? id;
@@ -29,7 +29,7 @@ class MultipleChoices extends StatelessWidget {
   bool isChecked = false;
   late bool _loading;
   List<int> idList = [0];
-  late double _progressValue = progress;
+
   TextEditingController editingController = TextEditingController();
 
   //final duplicateItems = List<String>.generate(10000, (i) => "Item $i");

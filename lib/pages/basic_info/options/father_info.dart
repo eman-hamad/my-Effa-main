@@ -18,17 +18,17 @@ import 'options.dart';
 class FatherInfo extends StatelessWidget {
   FatherInfo(
       {Key? key,
-      required this.progress,
+    
       required this.id,
       required this.gender})
       : super(key: key);
-  late double progress;
+ 
   int gender;
   int? id;
 
   bool press = false;
 
-  late double _progressValue = progress;
+
   TextEditingController editingController = TextEditingController();
 
   int tapIndex = 0;
@@ -155,7 +155,7 @@ list.then((value) {
                           child: TextQuestion(
                               id: id,
                               myLength: gender == 1 ? myLen : femaleLen,
-                              progress: _progressValue,
+                          
                               questions:
                                   // gender == 1
                                   //     ? maleQuestionList
@@ -173,7 +173,7 @@ list.then((value) {
                               editingController: editingController,
                               id: id,
                               myLength: gender == 1 ? myLen : femaleLen,
-                              progress: _progressValue,
+                          
                               questions: femaleQuestionList,
                               myIndex: Provider.of<InfoProvider>(context,
                                       listen: false)
@@ -184,7 +184,7 @@ list.then((value) {
                           child: MultipleChoices(
                               id: id,
                               myLength: gender == 1 ? myLen : femaleLen,
-                              progress: _progressValue,
+                            
                               questions: femaleQuestionList,
                               myIndex: Provider.of<InfoProvider>(context,
                                       listen: false)
@@ -393,7 +393,7 @@ list.then((value) {
                     builder: (context) => Options(
                           gender: 0,
                           id: id,
-                          progress: _progressValue,
+                        
                         )));
           }),
           child: Text(

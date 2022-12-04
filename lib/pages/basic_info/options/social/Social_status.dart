@@ -18,11 +18,11 @@ import '../options.dart';
 class SocialStatus extends StatelessWidget {
   SocialStatus(
       {Key? key,
-      required this.progress,
+   
       required this.id,
       required this.gender})
       : super(key: key);
-  late double progress;
+  
   int gender;
   int? id;
 
@@ -30,7 +30,6 @@ class SocialStatus extends StatelessWidget {
 
   // late bool _loading;
 
-  late double _progressValue = progress;
   TextEditingController editingController = TextEditingController();
 
   int tapIndex = 0;
@@ -63,10 +62,10 @@ class SocialStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     //  final model = Provider.of<AppStateProvider>(context, listen: false);
 
-    maleQuestionList = QuestionManager().getQuestions(id!, 2, 1);
-    femaleQuestionList = QuestionManager().getQuestions(id!, 2, 2);
+    maleQuestionList = QuestionManager().getQuestions(2, 2, 1);
+    femaleQuestionList = QuestionManager().getQuestions(2, 2, 2);
     // oneQuestion = QuestionManager().getQuestion(8, 2, 2, 22);
-     Future<List<Question>> list= QuestionManager().getQuestions(id!, 2, gender);
+     Future<List<Question>> list= QuestionManager().getQuestions(2, 2, 2);
     
     list.then((value) {
       print("gender ");
@@ -158,7 +157,7 @@ class SocialStatus extends StatelessWidget {
                             child: TextQuestion(
                                 id: id,
                                 myLength: gender == 1 ? myLen : femaleLen,
-                                progress: _progressValue,
+                              
                                 questions: gender == 1
                                     ? maleQuestionList
                                     : femaleQuestionList,
@@ -175,7 +174,7 @@ class SocialStatus extends StatelessWidget {
                                 category_id: 2,
                                 gender: gender,
                                 myLength: gender == 1 ? myLen : femaleLen,
-                                progress: _progressValue,
+                             
                                 questions: gender == 1
                                     ? maleQuestionList
                                     : femaleQuestionList,
@@ -188,7 +187,7 @@ class SocialStatus extends StatelessWidget {
                             child: MultipleChoices(
                                 id: id,
                                 myLength: gender == 1 ? myLen : femaleLen,
-                                progress: _progressValue,
+                                
                                 questions: gender == 1
                                     ? maleQuestionList
                                     : femaleQuestionList,
@@ -502,7 +501,7 @@ class SocialStatus extends StatelessWidget {
                       builder: (context) => Options(
                             gender: 0,
                             id: id,
-                            progress: _progressValue,
+                        
                           )));
             }),
             child: Text(

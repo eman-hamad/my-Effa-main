@@ -11,8 +11,8 @@ import '../models/terms_model.dart';
 
 // ignore: use_key_in_widget_constructors
 class ComplateInfo extends StatefulWidget {
-  const ComplateInfo({Key? key, this.id}) : super(key: key);
-  final int? id;
+   ComplateInfo({Key? key, required this.id}) : super(key: key);
+ int id;
   @override
   State<ComplateInfo> createState() => _ComplateInfoState();
 }
@@ -31,10 +31,9 @@ class _ComplateInfoState extends State<ComplateInfo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     print("widget.id");
+    print("widget.id");
     print(widget.id);
     if (futureTerms == null) {
-      ///tafkeeeeeeeeeeeeer
       futureTerms = TermsManager().getTerms();
     }
   }
@@ -49,11 +48,8 @@ class _ComplateInfoState extends State<ComplateInfo> {
       //   backgroundColor: transparnt,
       // ),
       body: Padding(
-        padding: EdgeInsets.only(
-             top: 20.h,
-            bottom: 20.h,
-            left: 10.h,
-            right: 10.h),
+        padding:
+            EdgeInsets.only(top: 20.h, bottom: 20.h, left: 10.h, right: 10.h),
         child: Column(children: [
           SizedBox(
             height: 65.h,
@@ -149,7 +145,7 @@ class _ComplateInfoState extends State<ComplateInfo> {
                         textDirection: TextDirection.rtl,
                         child: Padding(
                           padding: EdgeInsets.only(
-                           //   top: 5.h,
+                              //   top: 5.h,
                               left: 8.0.w,
                               right: 8.0.w,
                               bottom: 10.0.h),
@@ -204,7 +200,6 @@ class _ComplateInfoState extends State<ComplateInfo> {
                                           // "مستخدماً وبشكله الأصلي في الطباعة والتنضيد "
                                           // "الإلكتروني. انتشر بشكل كبير في ستينيّات هذا القرن",
 
-                                          
                                           style: TextStyle(
                                             color: lGrey,
 
@@ -279,7 +274,7 @@ class _ComplateInfoState extends State<ComplateInfo> {
                       _doSomething;
                       //model.completAccount();
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => BasicInfo()));
+                          MaterialPageRoute(builder: (context) => BasicInfo(id: widget.id,)));
                     }
                   : () {},
               raduis: 10,

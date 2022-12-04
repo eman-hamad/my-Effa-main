@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
-
 import 'package:effah/constants.dart';
 import 'package:effah/models/controller_reg.dart';
 import 'package:effah/modules/app/app_entity.dart';
@@ -68,13 +66,11 @@ class EffaApp extends StatelessWidget {
 
                 //  appBarTheme: SystemUiOverlayStyle.light.copyWith(           statusBarColor: Theme.of(context).primaryColor,         ),
                 appBarTheme: AppBarTheme(
-                    systemOverlayStyle:
-                    SystemUiOverlayStyle(statusBarColor: basicPink),
-                    brightness: Brightness.light
+                     systemOverlayStyle: SystemUiOverlayStyle.dark,
                 ),
                 fontFamily: 'JFFlat',
                 scrollbarTheme: ScrollbarThemeData().copyWith(
-                  thumbColor: MaterialStateProperty.all(basicPink),
+                  thumbColor: MaterialStateProperty.all(transparnt),
                 )),
             debugShowCheckedModeBanner: false,
 

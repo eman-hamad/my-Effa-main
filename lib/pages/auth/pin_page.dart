@@ -12,7 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
+import 'package:sms_autofill/sms_autofill.dart';
+import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import '../../components/reusable_widgets/rounded_button.dart';
 import '../../preferences/preferences.dart';
 import 'CodeInput.dart';
@@ -37,6 +38,7 @@ class _PinPageState extends State<PinPage> {
     // TODO: implement initState
     super.initState();
     verifyPhone();
+    //initSmsListener();
   }
 
   Timer? countdownTimer;
@@ -59,6 +61,26 @@ class _PinPageState extends State<PinPage> {
     });
   }
 
+  TextEditingController codeController1 = TextEditingController();
+  // String _comingSms = 'Unknown';
+
+  // Future<void> initSmsListener() async {
+
+  //   String? comingSms ;
+  //   try {
+  //     comingSms = await AltSmsAutofill().listenForSms;
+  //   } on PlatformException {
+  //     comingSms = 'Failed to get Sms.';
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _comingSms = comingSms!;
+  //     print("====>Message: ${_comingSms}");
+  //     print("${_comingSms[32]}");
+  //     codeController1.text = _comingSms[32] + _comingSms[33] + _comingSms[34] + _comingSms[35]
+  //         + _comingSms[36] + _comingSms[37]; //used to set the code in the message to a string and setting it to a textcontroller. message length is 38. so my code is in string index 32-37.
+  //   });
+  // }
   // var size;
   FocusNode _focusDigit1 = FocusNode();
   FocusNode _focusDigit2 = FocusNode();
@@ -67,7 +89,6 @@ class _PinPageState extends State<PinPage> {
   FocusNode _focusDigit5 = FocusNode();
   FocusNode _focusDigit6 = FocusNode();
 
-  TextEditingController codeController1 = TextEditingController();
   TextEditingController codeController2 = TextEditingController();
   TextEditingController codeController3 = TextEditingController();
   TextEditingController codeController4 = TextEditingController();
@@ -88,6 +109,7 @@ class _PinPageState extends State<PinPage> {
     _focusDigit6.dispose();
   }
 
+  bool is_pressed = true;
   @override
   Widget build(BuildContext context) {
     // final model = Provider.of<AppStateProvider>(context, listen: false);
@@ -177,6 +199,18 @@ class _PinPageState extends State<PinPage> {
                             // 8.w
                             MediaQuery.of(context).size.width * 0.12,
                       ),
+                      // child: PinFieldAutoFill(
+                      //   codeLength: 6,
+                      //   autoFocus: true,
+                      //   controller: codeController1,
+
+                      // decoration: UnderlineDecoration(
+                      //   lineHeight: 2,
+                      //   lineStrokeCap: StrokeCap.square,
+                      //   bgColorBuilder: PinListenColorBuilder(
+                      //       Colors.green.shade200, Colors.grey.shade200),
+                      //   colorBuilder: const FixedColorBuilder(Colors.transparent),
+                      // ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -296,31 +330,35 @@ class _PinPageState extends State<PinPage> {
                     SizedBox(
                       height: 60.h,
                     ),
-                    SizedBox(
-                      width: 148.w,
-                      height: 44.w,
-                      child: RoundedButton(
-                        color: basicPink,
-                        mywidget: Text('تأكيد',
-                            style: TextStyle(
-                                color: white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500)),
-                        raduis: 10,
-                        myfun: () async {
-                          code = codeController1.text.trim() +
-                              codeController2.text.trim() +
-                              codeController3.text.trim() +
-                              codeController4.text.trim() +
-                              codeController5.text.trim() +
-                              codeController6.text.trim();
-                          print("coooooode");
-                          print(code);
-
-                          signIn();
-                        },
-                      ),
-                    ),
+                    is_pressed
+                        ? SizedBox(
+                            width: 148.w,
+                            height: 44.w,
+                            child: RoundedButton(
+                              color: basicPink,
+                              mywidget: Text('تأكيد',
+                                  style: TextStyle(
+                                      color: white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500)),
+                              raduis: 10,
+                              myfun: () async {
+                                code = codeController1.text.trim() +
+                                    codeController2.text.trim() +
+                                    codeController3.text.trim() +
+                                    codeController4.text.trim() +
+                                    codeController5.text.trim() +
+                                    codeController6.text.trim();
+                                print("coooooode");
+                                print(code);
+                                setState(() {
+                                  is_pressed = false;
+                                });
+                                signIn();
+                              },
+                            ),
+                          )
+                        : CircularProgressIndicator(),
                     Spacer()
                   ]),
             ),
@@ -399,12 +437,13 @@ class _PinPageState extends State<PinPage> {
     try {
       await auth.signInWithCredential(credential).then((value) async {
         print("You are logged in successfullyl");
-
+        print("widget.code");
+        print(widget.code);
         final MyUser user = await UserManager()
             .postUser(widget.myPhone, widget.code, widget.name);
         print("user");
         print(user.isNew);
-        if (user.isNew == 0) {
+        if (user.isNew == 1) {
           // Navigator.push(
           //     context,
           //     MaterialPageRoute(
@@ -413,9 +452,12 @@ class _PinPageState extends State<PinPage> {
               (BuildContext context, Animation<double> animation,
                   Animation<double> secondaryAnimation) {
             return ComplateInfo(
-              id: user.id,
+              id: user.id!,
             );
           }));
+          setState(() {
+            is_pressed = true;
+          });
         } else {
           // Preferences.instance.setUser(user).whenComplete(() =>
 
@@ -427,11 +469,15 @@ class _PinPageState extends State<PinPage> {
                   return Options(
                     gender: user.gender!,
                     id: user.id,
-                    progress: 0,
+                    isComplete: user.isComplet,
+               
                   );
                 },
                 transitionDuration: Duration.zero,
               ));
+          setState(() {
+            is_pressed = true;
+          });
           //);
           //  Navigator.push(
           //     context,
@@ -484,7 +530,9 @@ class _PinPageState extends State<PinPage> {
                 textDirection: TextDirection.rtl,
                 child: Text("الكود غير صحيح")),
           ));
-
+          setState(() {
+            is_pressed = true;
+          });
           break;
 
         case "invalid-verification-code":
@@ -494,7 +542,9 @@ class _PinPageState extends State<PinPage> {
                 textDirection: TextDirection.rtl,
                 child: Text("الكود غير صحيح")),
           ));
-
+          setState(() {
+            is_pressed = true;
+          });
           break;
 
         case "invalid-phone-number":
@@ -514,6 +564,9 @@ class _PinPageState extends State<PinPage> {
                 child:
                     Text("من فضلك اضغط اعادة ارسال الكود وأدخل الكود الجديد")),
           ));
+          setState(() {
+            is_pressed = true;
+          });
           break;
       }
     } catch (e) {
@@ -522,6 +575,10 @@ class _PinPageState extends State<PinPage> {
         content: Directionality(
             textDirection: TextDirection.rtl, child: Text(e.toString())),
       ));
+
+      setState(() {
+        is_pressed = true;
+      });
     }
   }
 }

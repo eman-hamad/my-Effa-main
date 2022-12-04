@@ -12,13 +12,13 @@ import '../../models/question_model.dart';
 class TextQuestion extends StatelessWidget {
   TextQuestion(
       {Key? key,
-      required this.progress,
+
       this.questions,
       required this.myIndex,
       required this.id,
       required this.myLength})
       : super(key: key);
-  late double progress;
+ 
   int myIndex;
   int myLength;
   int? id;
@@ -26,7 +26,7 @@ class TextQuestion extends StatelessWidget {
 
   bool press = false;
 
-  late double _progressValue = progress;
+  
 
   TextEditingController txtController = TextEditingController();
   int tapIndex = 0;
