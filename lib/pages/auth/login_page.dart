@@ -21,10 +21,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? _errorText;
   TextEditingController phoneController = TextEditingController();
+
   final _controller = TextEditingController();
   GlobalKey<FormState> form = GlobalKey<FormState>();
   @override
   void initState() {
+    _controller.text = "1273237055";
     super.initState();
   }
 
@@ -86,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                   Spacer(),
                   SvgPicture.asset(
                     "assets/image/logo.svg",
-                    width: MediaQuery.of(context).size.width / 3,
+                    width: MediaQuery.of(context).size.width / 2.4,
                   ),
                   SizedBox(
                     height: 70.h,

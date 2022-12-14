@@ -15,8 +15,20 @@ class ControllerReg extends ChangeNotifier {
 
   PageController pageController = PageController(initialPage: 0);
   double position = 0.15;
-
-
+  int? selectedChoise;
+  int? index;
+  void changeIndex(int i){
+    selectedChoise  = i;
+    notifyListeners();
+  }
+  void listPosition(int i){
+    index  = i;
+    notifyListeners();
+  }
+  void changeIndexn(){
+    selectedChoise  = null;
+    notifyListeners();
+  }
   void onTap(
     value,
   ) {

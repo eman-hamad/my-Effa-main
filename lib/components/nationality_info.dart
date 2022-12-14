@@ -121,22 +121,9 @@ class _NationalityInfoState extends State<NationalityInfo> {
                                         context,
                                         listen: false);
                                     tapIndex = index;
-                                    // _setIconVisible(visible);
-                                    // print("before");
-                                    // print(visible);
-                                    // visible = !visible;
                                     press = true;
-                                    // print("after");
-                                    // print(visible);
-                                    // setState(() {});
-                                    Provider.of<InfoProvider>(context,
-                                            listen: false)
-                                        .rebuild();
-                                    // press = false;
-                                    // visible = false;
+                                    Provider.of<InfoProvider>(context, listen: false).rebuild();
                                     _updateProgress(context);
-                                    // postNationality(
-                                    //     snapshot.data![index].id, context);
                                     ref.onTap(0.85 );
                                     ControllerReg.nationaityID=snapshot.data![index].id;
                                   },
@@ -147,19 +134,6 @@ class _NationalityInfoState extends State<NationalityInfo> {
                                         left: 10.w),
                                     child: Row(
                                       children: [
-                                        // ListTile(
-                                        //   title: Text('${nationalites[index].word} '),
-                                        // ),
-                                        // Visibility
-                                        //   visible: tapIndex == index && press == false
-                                        //       ? true
-                                        //       : false,
-                                        //   child: const Icon(
-                                        //     Icons.check,
-                                        //     size: 30,
-                                        //     color: basicPink,
-                                        //   ),
-                                        // ),
                                         Icon(
                                           Icons.check,
                                           size: 30,
@@ -190,20 +164,11 @@ class _NationalityInfoState extends State<NationalityInfo> {
                                 return InkWell(
                                   onTap: () {
                                     tapIndex = index;
-                                    final ref = Provider.of<ControllerReg>(
-                                        context,
-                                        listen: false);
-
+                                    final ref = Provider.of<ControllerReg>(context, listen: false);
                                     press = true;
-
-                                    Provider.of<InfoProvider>(context,
-                                            listen: false)
-                                        .rebuild();
+                                    Provider.of<InfoProvider>(context, listen: false).rebuild();
                                     editingController.clear();
-
                                     _updateProgress(context);
-                                    // postNationality(
-                                    //     snapshot.data![index].id, context);
                                       ref.onTap(0.85  );
                                        ControllerReg.nationaityID=snapshot.data![index].id;
                                   },
@@ -255,25 +220,8 @@ class _NationalityInfoState extends State<NationalityInfo> {
     ]);
   }
 
-  // void postNationality(int? countryId, BuildContext context) async {
-  //   // final MyUser user =
-  //   //     await UserManager().updateUser(widget.id, country_id: countryId);
-  //   // if(user.countryId!=0){
-  //   // Navigator.push(
-  //   //     context,
-  //   //     MaterialPageRoute(
-  //   //         builder: (context) =>
-  //   // Navigator.push(context, PageRouteBuilder(pageBuilder: (BuildContext context,
-  //   //     Animation<double> animation, Animation<double> secondaryAnimation) {
-  //   //   return ReligionInfo(
-  //   //       gender: widget.gender!,
-  //   //       id: widget.id,
-  //   //       progress:
-  //   //           Provider.of<InfoProvider>(context, listen: false).progressValue);
-  //   // }));
-  // }
 
-  //}
+
   void _updateProgress(BuildContext context) {
     //Provider.of<InfoProvider>(context, listen: false).updateProgress(_progressValue);
     Provider.of<InfoProvider>(context, listen: false).progressValue += 0.15;
@@ -287,8 +235,3 @@ class _NationalityInfoState extends State<NationalityInfo> {
   }
 }
 
-// class myclass {
-//   String word;
-
-//   myclass(this.word);
-// }

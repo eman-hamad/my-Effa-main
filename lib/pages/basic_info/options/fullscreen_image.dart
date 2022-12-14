@@ -1,14 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:effah/api_constants.dart';
+import 'package:effah/models/images_model.dart';
+import 'package:effah/models/user_model2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:image_network/image_network.dart';
 
 import '../../../constants.dart';
 // import 'package:flutter_swiper/flutter_swiper.dart';
 
 class FullScreenImage extends StatefulWidget {
   FullScreenImage({Key? key, required this.images}) : super(key: key);
-  List<String> images;
+  List<ImagesUser> images;
 
   @override
   State<FullScreenImage> createState() => _FullScreenImageState();
@@ -45,13 +50,38 @@ class _FullScreenImageState extends State<FullScreenImage> {
       body: Stack(children: [
         Swiper(
           scrollDirection: Axis.vertical,
-          itemBuilder: (BuildContext context, int i) => Image.asset(
-            widget.images[i],
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.center,
-          ),
+          itemBuilder: (BuildContext context, int i) =>
+              CachedNetworkImage(
+                imageUrl: ApiConstants.imagebaseUrl + widget.images[i].image,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                        ),
+                  ),
+                ),
+                placeholder: (context, url) =>Center(child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator())),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+          //     ImageNetwork(
+          //   image: ApiConstants.imagebaseUrl + widget.images[i].image,
+          //   fitAndroidIos: BoxFit.cover,
+          //   height: double.infinity,
+          //   width: double.infinity,
+          //   curve: Curves.easeIn,
+          //   onPointer: true,
+          //   onLoading: const CircularProgressIndicator(
+          //     color: Colors.indigoAccent,
+          //   ),
+          //   onError: const Icon(
+          //     Icons.error,
+          //     color: Colors.red,
+          //   ),
+          // ),
           loop: false,
           // onTap: (v) {
           //    _updatePosition(v.toDouble());

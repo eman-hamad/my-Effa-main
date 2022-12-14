@@ -1,3 +1,4 @@
+import 'package:effah/models/controller_reg.dart';
 import 'package:effah/modules/app/app_state_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ import '../../../modules/basic_info_provider.dart';
 import 'options.dart';
 
 
-class Diseases extends StatelessWidget {
+class Diseases extends StatefulWidget {
   Diseases(
       {Key? key,
 
@@ -30,6 +31,12 @@ class Diseases extends StatelessWidget {
 
   static int myLen = 0;
   static int femaleLen = 0;
+
+  @override
+  State<Diseases> createState() => _DiseasesState();
+}
+
+class _DiseasesState extends State<Diseases> {
 //   @override
   bool press = false;
 
@@ -39,11 +46,10 @@ class Diseases extends StatelessWidget {
 
   bool visible = false;
 
-
-
   TextEditingController editingController = TextEditingController();
 
-  final controller = SwiperController();
+  PageController controller = PageController();
+
 
   int tapIndex = 0;
 
@@ -52,43 +58,21 @@ class Diseases extends StatelessWidget {
   int h = 0;
 
   int len = 0;
+  int level = 1;
+  int pos = 1;
 
   int fLen = 0;
-
-  getLength() async {
-    // myLen = g.length;
-    k = await QuestionManager().getQuestions(id!, 1, 1);
-    Diseases.myLen = k.length;
-
-    myfLen = await QuestionManager().getQuestions(id!, 1, 2);
-    Diseases.femaleLen = myfLen.length;
-  }
-
+  bool loader = false;
   Future<List<Question>>? maleQuestionList;
 
   Future<List<Question>>? femaleQuestionList;
+
   @override
   Widget build(BuildContext context) {
-    maleQuestionList = QuestionManager().getQuestions(id!, 1, 1);
-    femaleQuestionList = QuestionManager().getQuestions(id!, 1, 2);
-Future<List<Question>> list= QuestionManager().getQuestions(id!, 1, gender);
-list.then((value) {
-      print("gender ");
-      print(QuestionManager.len);
-      print(Provider.of<InfoProvider>(context, listen: false)
-          .educationProgressValue);
-      Provider.of<InfoProvider>(context, listen: false).personalProgressValue =
-          1 / QuestionManager.len;
-    });
+    print(tapIndex);
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0.0,
-      //   backgroundColor: transparnt,
-      // ),
       body: SizedBox(
-        // height: height,
         child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 height: 65.h,
@@ -139,369 +123,280 @@ list.then((value) {
                 ),
               ),
               FutureBuilder<List<Question>>(
-                  future: gender == 1 ? maleQuestionList : femaleQuestionList,
+                  future:  QuestionManager().getQuestions(1, level,context),
                   builder: (context, snapshot) {
+                    final ref = Provider.of<ControllerReg>(context, listen: true);
                     if (snapshot.hasData) {
-                      return Expanded(
-                        //  flex: 3,
-                        child: Swiper(
-                          controller: controller,
-                          onIndexChanged: (value) {
-                            Provider.of<InfoProvider>(context, listen: false)
-                                .myIndexPersonal = value;
-                          },
-                          loop: false,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int x) {
-                            if (snapshot.data![x].type == 1) {
-                              return Center(
-                                child: TextQuestion(
-                                    id: id,
-                                    myLength: gender == 1 ? myLen : femaleLen,
-                                    
-                                    questions: gender == 1
-                                        ? maleQuestionList
-                                        : femaleQuestionList,
-                                    myIndex: Provider.of<InfoProvider>(context,
-                                            listen: false)
-                                        .myIndexPersonal),
-                              );
-                            } else if (snapshot.data![x].type == 2 ||
-                                snapshot.data![x].type == 4) {
-                              return Center(
-                                child: OneChoice(
-                                  gender: gender,
-                                    editingController: editingController,
-                                    id: id,
-                                    myLength: gender == 1 ? myLen : femaleLen,
-                                  
-                                    questions: gender == 1
-                                        ? maleQuestionList
-                                        : femaleQuestionList,
-                                    myIndex: Provider.of<InfoProvider>(context,
-                                            listen: false)
-                                        .myIndexPersonal),
-                              );
-                            } else {
-                              return Center(
-                                child: MultipleChoices(
-                                    id: id,
-                                    myLength: gender == 1 ? myLen : femaleLen,
-                            
-                                    questions: gender == 1
-                                        ? maleQuestionList
-                                        : femaleQuestionList,
-                                    myIndex: Provider.of<InfoProvider>(context,
-                                            listen: false)
-                                        .myIndexPersonal
-                                    // myLength: gender == 1 ? myLen : femaleLen,
-                                    // progress: _progressValue,
-                                    // questions: gender == 1
-                                    //     ? maleQuestionList
-                                    //     : femaleQuestionList,
-                                    // myIndex: Provider.of<InfoProvider>(context,
-                                    //         listen: false)
-                                    //     .myIndex
-                                    ),
-                              );
-                            }
-                          },
-                          itemCount: QuestionManager.len,
-                          //  gender == 1 ? myLen :femaleLen,
-                          //3
-                          // control: const SwiperControl(
-                          //   color: black,
-                          //   disableColor: red,
-                          //   //padding:  EdgeInsets.only(bottom: 50.h ) ,
-                          //   // // size: ,
+                      return  snapshot.hasError? Center(child: CircularProgressIndicator(),):Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height*0.5,
+                              child: PageView.builder(
+                                 controller: controller,
+                                physics: NeverScrollableScrollPhysics(),
+                                onPageChanged: (value){
+                                    print(value);
+                                    print(QuestionManager.len== tapIndex+2);
+                                   setState(() {
+                                     tapIndex = value;
+                                     pos = tapIndex-1;
+                                   });
+                                },
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int x) {
 
-                          //   iconPrevious: Icons.arrow_back_ios,
-                          //   iconNext: Icons.arrow_forward_ios,
-                          // ),
-                        ),
+                                  if (snapshot.data![x].type == 1) {
+                                    return Center(
+                                      child: TextQuestion(
+                                          id: widget.id,
+                                        Q_id:  snapshot.data![x].id,
+                                        question: snapshot.data![x].content!,
+                                        answers: snapshot.data![x].answers,),
+                                    );
+                                  } else if (snapshot.data![x].type == 2 || snapshot.data![x].type == 4) {
+                                    return Center(
+                                      child: OneChoice(
+                                          editingController: editingController,
+                                          id: widget.id,
+                                          Q_id:  snapshot.data![x].id,
+                                          answers: snapshot.data![x].answers,
+                                        question: snapshot.data![x].content!,),
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: MultipleChoices(
+                                          id: widget.id,
+                                          Q_id: snapshot.data![x].id,
+                                          question:snapshot.data![x].content!,
+                                        answers:snapshot.data![x].answers,
+                                      ),
+                                    );
+                                  }
+                                },
+                                itemCount: QuestionManager.len,
+                              ),
+                            ),
+                            tapIndex ==0?
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 1.5.w,
+                                        // assign the color to the border color
+                                        color: transparnt,
+                                      ),
+                                      color: basicPink,
+                                      borderRadius:
+                                      const BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: TextButton(
+                                      child: Text(
+                                          ref.selectedChoise==null?'تخطي':"التالي",
+                                          style: TextStyle(
+                                            color: white,
+                                            fontSize: 16.sp,
+
+                                          )),
+                                      style: TextButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(10))),
+                                      ),
+                                      onPressed: () {
+                                        if(snapshot.data![tapIndex].isSkipable == 1){
+                                          ref.changeIndexn();
+                                          print("${ref.selectedChoise }ssssssssssssssssdddddddddddddddddsssssssss");
+                                          _updateProgress(context);
+                                          controller.nextPage(duration:Duration(milliseconds: 400), curve: Curves.easeIn);
+                                          increment(context);
+                                        }else if(ref.selectedChoise!=null){
+                                          ref.changeIndexn();
+                                          print("${ref.selectedChoise }sssssssssssssssssss");
+                                          _updateProgress(context);
+                                          controller.nextPage(duration:Duration(milliseconds: 400), curve: Curves.easeIn);
+                                          increment(context);
+
+                                        }else{
+                                          ref.changeIndexn();
+                                          print("${ref.selectedChoise }sssssssssssssssssss");
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                            backgroundColor: orginalRed,
+                                            content: Directionality(
+                                                textDirection: TextDirection.rtl,
+                                                child: Text("برجاء اختيار اجراء")),
+                                          ));
+                                        }
+                                        // if(tapIndex+1 == QuestionManager.len){
+                                        //   setState((){
+                                        //     level++;
+                                        //
+                                        //   });
+                                        // }
+                                      },
+                                    ),
+                                  ),
+                                )):
+                                tapIndex+1==QuestionManager.len?
+                                Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            width: 1.5.w,
+                                            color: transparnt,
+                                          ),
+                                          color: basicPink,
+                                          borderRadius:
+                                          const BorderRadius.all(Radius.circular(10)),
+                                        ),
+                                        child: TextButton(
+                                          child: Text(
+                                              "تأكيد",
+                                              style: TextStyle(
+                                                color: white,
+                                                fontSize: 16.sp,
+
+                                              )),
+                                          style: TextButton.styleFrom(
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(10))),
+                                          ),
+                                          onPressed: () {
+                                            if(snapshot.data![tapIndex].isSkipable == 1){
+                                              ref.changeIndexn();
+                                              setState(() {
+                                                 level++;
+                                              });
+                                            }else if(ref.selectedChoise!=null){
+                                              ref.changeIndexn();
+                                              setState(() {
+                                                 level++;
+                                              });
+                                            }else{
+                                              ref.changeIndexn();
+                                              print("${ref.selectedChoise }sssssssssssssssssss");
+                                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                backgroundColor: orginalRed,
+                                                content: Directionality(
+                                                    textDirection: TextDirection.rtl,
+                                                    child: Text("برجاء اختيار اجراء")),
+                                              ));
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    )):
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15.w),
+                              child: Row(children: [
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 1.5.w,
+                                        // assign the color to the border color
+                                        color: transparnt,
+                                      ),
+                                      color: basicPink,
+                                      borderRadius:
+                                      const BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: TextButton(
+                                      child: Text(
+                                          ref.selectedChoise==null?'تخطي':"التالي",
+                                          style: TextStyle(
+                                            color: white,
+                                            fontSize: 16.sp,
+                                          )),
+                                      style: TextButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.all(Radius.circular(10))),
+                                      ),
+                                      onPressed: () {
+                                        if(snapshot.data![tapIndex].isSkipable == 1){
+                                          ref.changeIndexn();
+                                          _updateProgress(context);
+                                          controller.nextPage(duration:Duration(milliseconds: 400), curve: Curves.easeIn);
+                                          increment(context);
+                                        }else if(ref.selectedChoise!=null){
+                                          ref.changeIndexn();
+                                          print("${ref.selectedChoise }sssssssssssssssssss");
+                                          _updateProgress(context);
+                                          controller.nextPage(duration:Duration(milliseconds: 400), curve: Curves.easeIn);
+                                          increment(context);
+                                        }else{
+                                          ref.changeIndexn();
+                                          print("${ref.selectedChoise }sssssssssssssssssss");
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                            backgroundColor: orginalRed,
+                                            content: Directionality(
+                                                textDirection: TextDirection.rtl,
+                                                child: Text("برجاء اختيار اجراء")),
+                                          ));
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: true,
+                                  child: SizedBox(
+                                    width: 25.w,
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: true,
+                                  child: Expanded(
+                                    child: Container(
+                                    decoration: BoxDecoration(
+                                      color: transparnt,
+                                      border: Border.all(
+                                        width: 1.5.w,
+                                        // assign the color to the border color
+                                        color: black,
+                                      ),
+                                      borderRadius:
+                                          const BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: TextButton(
+                                      child: Text('السابق',
+                                          style: TextStyle(
+                                            color: black,
+                                            fontSize: 16.sp,
+                                          )),
+                                      style: TextButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.all(Radius.circular(10))),
+                                      ),
+                                      onPressed: () {
+                                        _removeProgress(context);
+                                        controller.previousPage(duration:Duration(milliseconds: 400), curve: Curves.easeIn);
+                                        decrement(context);
+                                      },
+                                    ),
+                                  ),
+                                  ),
+                                ),
+                              ]),
+                            )
+                          ],
                       );
-                    } else if (snapshot.hasError) {
+                    }
+                    else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     } else {
                       return Center(child: CircularProgressIndicator());
                     }
                   }),
-              Consumer<InfoProvider>(builder: (_, a, child) {
-                if (Provider.of<InfoProvider>(context, listen: false)
-                        .myIndexPersonal ==
-                    0) {
-                  return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1.5.w,
-                              // assign the color to the border color
-                              color: transparnt,
-                            ),
-                            color: basicPink,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: TextButton(
-                            child: Text('تخطي',
-                                style: TextStyle(
-                                  color: white,
-                                  fontSize: 16.sp,
-                                  // fontWeight: FontWeight.w500
-                                )),
-                            style: TextButton.styleFrom(
-                              // backgroundColor: const Color(0xffff8297),
-                              // primary: Colors.teal,
-                              // onSurface: Colors.yellow,
-                              // side: BorderSide(color: Colors.teal, width: 2),
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                            ),
-                            onPressed: () {
-                              _updateProgress(context);
-                              controller.next();
-                              // setState(() {
-                              //      visible = true;
-                              // });
-                              increment(context);
-                              // visible = true;
-                              // Provider.of<InfoProvider>(context, listen: false)
-                              //     .rebuild();
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => Options(
-                              //               progress: _progressValue,
-                              //               id: id,
-                              //               gender: 0,
-                              //             )));
-                            },
-                          ),
-                        ),
-                      ));
-                } else if (Provider.of<InfoProvider>(context, listen: false)
-                        .myIndexPersonal ==
-                    QuestionManager.len - 1) {
-                  return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: transparnt,
-                            border: Border.all(
-                              width: 1.5.w,
-                              // assign the color to the border color
-                              color: black,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: TextButton(
-                            child: Text('السابق',
-                                style: TextStyle(
-                                  color: black,
-                                  fontSize: 16.sp,
-                                  //fontWeight: FontWeight.w500
-                                )),
-                            style: TextButton.styleFrom(
-                              // backgroundColor: const Color(0xffff8297),
-                              // primary: Colors.teal,
-                              // onSurface: Colors.yellow,
-                              // side: BorderSide(color: Colors.teal, width: 2),
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                            ),
-                            onPressed: () {
-                              // Provider.of<InfoProvider>(context, listen: false)
-                              //     .myIndex++;
 
-                              // Provider.of<InfoProvider>(context, listen: false)
-                              //     .rebuild();
-                               _removeProgress(context);
-                              controller.previous();
-                              // if (Provider.of<InfoProvider>(context,
-                              //             listen: false)
-                              //         .myIndex ==
-                              //     0) {
-                              //   visible = false;
-                              //     Provider.of<InfoProvider>(context, listen: false)
-                              //     .rebuild();
-                              // }
-                              // else{
-                              //   visible = true;
-                              //     Provider.of<InfoProvider>(context, listen: false)
-                              //     .rebuild();
-                              // }
-                              // visible = true;
-                              // Provider.of<InfoProvider>(context, listen: false)
-                              //     .rebuild();
-                              decrement(context);
-                              print("pressed");
-                              print(Provider.of<InfoProvider>(context,
-                                      listen: false)
-                                  .myIndexPersonal);
-                              // // _updateProgress(context);
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => Options(
-                              //               gender: 0,
-                              //               progress: _progressValue,
-                              //               id: id,
-                              //             )));
-                            },
-                          ),
-                        ),
-                      ));
-                } else {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1.5.w,
-                                // assign the color to the border color
-                                color: transparnt,
-                              ),
-                              color: basicPink,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: TextButton(
-                              child: Text('تخطي',
-                                  style: TextStyle(
-                                    color: white,
-                                    fontSize: 16.sp,
-                                    // fontWeight: FontWeight.w500
-                                  )),
-                              style: TextButton.styleFrom(
-                                // backgroundColor: const Color(0xffff8297),
-                                // primary: Colors.teal,
-                                // onSurface: Colors.yellow,
-                                // side: BorderSide(color: Colors.teal, width: 2),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                              ),
-                              onPressed: () {
-                                _updateProgress(context);
-                                controller.next();
-
-                                increment(context);
-                                // visible = true;
-                                // Provider.of<InfoProvider>(context, listen: false)
-                                //     .rebuild();
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Options(
-                                //               progress: _progressValue,
-                                //               id: id,
-                                //               gender: 0,
-                                //             )));
-                              },
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                          visible: true,
-                          child: SizedBox(
-                            width: 25.w,
-                          ),
-                        ),
-                        Visibility(
-                          visible: true,
-                          // Provider.of<InfoProvider>(context, listen: false)
-                          //             .myIndex ==
-                          //         0
-                          //     ? visible
-                          //     : !visible,
-                          child: Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: transparnt,
-                                border: Border.all(
-                                  width: 1.5.w,
-                                  // assign the color to the border color
-                                  color: black,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                              ),
-                              child: TextButton(
-                                child: Text('السابق',
-                                    style: TextStyle(
-                                      color: black,
-                                      fontSize: 16.sp,
-                                      //fontWeight: FontWeight.w500
-                                    )),
-                                style: TextButton.styleFrom(
-                                  // backgroundColor: const Color(0xffff8297),
-                                  // primary: Colors.teal,
-                                  // onSurface: Colors.yellow,
-                                  // side: BorderSide(color: Colors.teal, width: 2),
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                ),
-                                onPressed: () {
-                                  // Provider.of<InfoProvider>(context, listen: false)
-                                  //     .myIndex++;
-
-                                  // Provider.of<InfoProvider>(context, listen: false)
-                                  //     .rebuild();
-                                  _removeProgress(context);
-                                  controller.previous();
-                                  // if (Provider.of<InfoProvider>(context,
-                                  //             listen: false)
-                                  //         .myIndex ==
-                                  //     0) {
-                                  //   visible = false;
-                                  //     Provider.of<InfoProvider>(context, listen: false)
-                                  //     .rebuild();
-                                  // }
-                                  // else{
-                                  //   visible = true;
-                                  //     Provider.of<InfoProvider>(context, listen: false)
-                                  //     .rebuild();
-                                  // }
-                                  // visible = true;
-                                  // Provider.of<InfoProvider>(context, listen: false)
-                                  //     .rebuild();
-                                  decrement(context);
-                                  print("pressed");
-                                  print(Provider.of<InfoProvider>(context,
-                                          listen: false)
-                                      .myIndexPersonal);
-                                  // // _updateProgress(context);
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => Options(
-                                  //               gender: 0,
-                                  //               progress: _progressValue,
-                                  //               id: id,
-                                  //             )));
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]),
-                    ),
-                  );
-                }
-              }),
               SizedBox(
                 height: 30.h,
               ),
@@ -512,8 +407,8 @@ list.then((value) {
                       MaterialPageRoute(
                           builder: (context) => Options(
                                 gender: 0,
-                                id: id,
-                             
+                                id: widget.id,
+
                               )));
                 }),
                 child: Text(
@@ -528,9 +423,8 @@ list.then((value) {
       ),
     );
   }
+
 //Future<List<Question>> getQuestions() async {
-  //   return await QuestionManager().getQuestions(id!, 1, gender);
-  // }
   void increment(BuildContext context) {
     Provider.of<InfoProvider>(context, listen: false).myIndexPersonal++;
     Provider.of<InfoProvider>(context, listen: false).rebuild();

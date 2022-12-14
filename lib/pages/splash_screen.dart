@@ -135,13 +135,13 @@ class _SpalshScreenState extends State<SpalshScreen> {
               transitionDuration: Duration.zero,
             ));
         break;
-      case AppState.notCompleted:
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => ComplateInfo()),
-              (Route<dynamic> route) => false,
-        );
-        break;
+      // case AppState.notCompleted:
+      //   Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => ComplateInfo()),
+      //         (Route<dynamic> route) => false,
+      //   );
+      //   break;
       case AppState.notVerified:
         Navigator.pushAndRemoveUntil(
           context,
@@ -166,7 +166,15 @@ class _SpalshScreenState extends State<SpalshScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/image/splash.png"))),
+            image: DecorationImage(image: AssetImage("assets/image/background.png"))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset("assets/image/icon.png",width: 181,),
+            SizedBox(height: 100,),
+            CircularProgressIndicator()
+          ],
+        ),
       ),
     );
   }

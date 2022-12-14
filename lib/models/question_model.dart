@@ -10,6 +10,7 @@ class Question {
   int? ansId;
   int? quId;
   int? level;
+  int? isSkipable;
   String? createdAt;
   String? updatedAt;
   List<Answers>? answers;
@@ -26,6 +27,7 @@ class Question {
       this.ansId,
       this.quId,
       this.level,
+      this.isSkipable,
       this.createdAt,
       this.updatedAt,
       this.answers});
@@ -42,6 +44,7 @@ class Question {
     ansId = json['ans_id'];
     quId = json['qu_id'];
     level = json['level'];
+    isSkipable = json['is_skipable'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['answers'] != null) {
@@ -65,6 +68,7 @@ class Question {
     data['ans_id'] = this.ansId;
     data['qu_id'] = this.quId;
     data['level'] = this.level;
+    data['is_skipable'] = this.isSkipable;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.answers != null) {

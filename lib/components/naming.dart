@@ -57,10 +57,6 @@ class Naming extends StatelessWidget {
                       },
                       controller: secondName,
                       textAlign: TextAlign.right,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp('[\u0621-\u064A]'))
-                      ],
                       cursorColor: basicPink,
                       validator: (text) {
                         if (text!.isEmpty) {
@@ -71,8 +67,7 @@ class Naming extends StatelessWidget {
 
                         return null;
                       },
-                      keyboardType: TextInputType.name,
-                      onFieldSubmitted: (String value) {},
+
                       onChanged: (String value) {},
                       maxLength: 12,
                       decoration: InputDecoration(
@@ -124,13 +119,9 @@ class Naming extends StatelessWidget {
                         }
                         return null;
                       },
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp('[\u0621-\u064A]'))
-                      ],
-                      keyboardType: TextInputType.name,
-                      onFieldSubmitted: (String value) {},
-                      onChanged: (String value) {},
+                      // keyboardType: TextInputType.name,
+                      // onFieldSubmitted: (String value) {},
+                      // onChanged: (String value) {},
                       maxLength: 12,
                       decoration: InputDecoration(
                         labelText: 'الاسم الأول',

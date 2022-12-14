@@ -3,7 +3,7 @@ class Nationality {
   String? name;
   String? fName;
   String? info;
-  String? isActive;
+  int? isActive;
   String? createdAt;
   String? updatedAt;
 

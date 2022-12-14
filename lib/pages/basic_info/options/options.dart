@@ -48,6 +48,23 @@ class _OptionsState extends State<Options> {
 
   TextEditingController editingController = TextEditingController();
   Future<Questions>? questions;
+  bool loader = false;
+  // Future<void> getMemberData() async {
+  //   setState(() {
+  //     loader = true;
+  //   });
+  //   try {
+  //     await Provider.of<USERDATA>(context, listen: false).fetchMembers1();
+  //     setState(() {
+  //       loader = false;
+  //     });
+  //   } catch (e) {
+  //     setState(() {
+  //       loader = false;
+  //     });
+  //     throw (e);
+  //   }
+  // }
   //final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
   int? finished1, finished2, finished3, finished4, finished5;
   var items = [];
@@ -271,16 +288,8 @@ class _OptionsState extends State<Options> {
                     return InkWell(
                       onTap: () {
                         tapIndex = index;
-                        // _setIconVisible(visible);
-                        // print("before");
-                        // print(visible);
-                        // visible = !visible;
                         press = !press;
-                        // print("after");
-                        // print(visible);
                         setState(() {});
-                        // press = false;
-                        // visible = false;
                         if (index == 2) {
                           Navigator.push(
                               context,
@@ -290,12 +299,7 @@ class _OptionsState extends State<Options> {
                                         id: widget.id,
                                       )));
                         } else if (index == 0) {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => MyProfile(
-                          //               progress: progress,
-                          //             )));
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -364,15 +368,7 @@ class _OptionsState extends State<Options> {
                         textDirection: TextDirection.rtl,
                         child: Row(
                           children: [
-                            // ListTile(
-                            //   title: Text('${nationalites[index].word} '),
-                            // ),
-
-                            // ImageIcon(
                             SvgPicture.asset(images[index]),
-                            //   size: 40,
-                            //   color: basicPink,
-                            // ),
                             SizedBox(
                               width: 7.w,
                             ),
@@ -383,8 +379,6 @@ class _OptionsState extends State<Options> {
                               style: TextStyle(
                                   fontSize: 16.sp,
                                   color:
-                                      //tapIndex == index && press == false
-
                                       (index == 6 &&
                                                   widget.gender == 2 &&
                                                   finished5 == 1) ||
@@ -396,24 +390,10 @@ class _OptionsState extends State<Options> {
                                           : black),
                             ),
                             const Spacer(),
-                            // Visibility(
-                            //   visible:
-                            //       tapIndex == index && press == false
-                            //           ? true
-                            //           : false,
-                            //   child: const Icon(
-                            //     Icons.check,
-                            //     size: 30,
-                            //     color: basicPink,
-                            //   ),
-                            // ),
-
                             Icon(
                               Icons.check,
                               size: 30,
                               color:
-                                  //tapIndex == index && press == false
-
                                   (index == 6 &&
                                               widget.gender == 2 &&
                                               finished5 == 1) ||

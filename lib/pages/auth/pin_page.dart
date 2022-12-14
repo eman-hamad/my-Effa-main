@@ -11,9 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:sms_autofill/sms_autofill.dart';
-import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import '../../components/reusable_widgets/rounded_button.dart';
 import '../../preferences/preferences.dart';
 import 'CodeInput.dart';
@@ -429,20 +428,15 @@ class _PinPageState extends State<PinPage> {
   }
 
   void signIn() async {
-
-    print("verificationID");
-    print(verificationID);
+    GetStorage storage = GetStorage();
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationID, smsCode: code!);
     try {
       await auth.signInWithCredential(credential).then((value) async {
-        print("You are logged in successfullyl");
-        print("widget.code");
         print(widget.code);
         final MyUser user = await UserManager()
             .postUser(widget.myPhone, widget.code, widget.name);
-        print("user");
-        print(user.isNew);
+        storage.write("userId", user.id);
         if (user.isNew == 1) {
           // Navigator.push(
           //     context,

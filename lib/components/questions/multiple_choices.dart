@@ -1,3 +1,4 @@
+import 'package:effah/models/controller_reg.dart';
 import 'package:effah/modules/app/app_state_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,24 +11,29 @@ import '../../../modules/basic_info_provider.dart';
 import '../../managers/question_manager.dart';
 import '../../models/question_model.dart';
 
-class MultipleChoices extends StatelessWidget {
-  MultipleChoices(
-      {Key? key,
-   
-      this.questions,
-      required this.myIndex,
-      required this.id,
-      required this.myLength})
-      : super(key: key);
-  
-  int myIndex;
-  int myLength;
+class MultipleChoices extends StatefulWidget {
+  MultipleChoices({
+    Key? key,
+    this.answers,
+    this.Q_id,
+    required this.question,
+    required this.id,
+  }) : super(key: key);
+  String question;
   int? id;
-  Future<List<Question>>? questions;
+  int? Q_id;
+  List<Answers>? answers;
 
+  @override
+  State<MultipleChoices> createState() => _MultipleChoicesState();
+}
+
+class _MultipleChoicesState extends State<MultipleChoices> {
   bool press = false;
+
   bool isChecked = false;
-  late bool _loading;
+
+
   List<int> idList = [0];
 
   TextEditingController editingController = TextEditingController();
@@ -35,21 +41,21 @@ class MultipleChoices extends StatelessWidget {
   //final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
   var items = [];
 
-  List<bool> checkedlist = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
+  List<bool> checkedlist = [];
+  bool val = false;
+  int? tapIndex ;
 
-  int tapIndex = 0;
+  @override
+  void initState() {
+    checkedlist = List<bool>.filled(widget.answers!.length, val);
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final ref =
+    Provider.of<ControllerReg>(context, listen: false);
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
         MaterialState.pressed,
@@ -61,27 +67,17 @@ class MultipleChoices extends StatelessWidget {
     }
 
     return Column(children: [
-      FutureBuilder<List<Question>>(
-          future: questions,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.h),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    snapshot.data![myIndex].content!,
-                    style: TextStyle(fontSize: 20.sp),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          }),
+      Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.h),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            widget.question,
+            style: TextStyle(fontSize: 20.sp),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
       Padding(
         padding:
             EdgeInsets.only(right: 30.w, left: 30.w, bottom: 8.h, top: 8.h),
@@ -110,379 +106,266 @@ class MultipleChoices extends StatelessWidget {
       ),
       Expanded(
           child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Container(
-          alignment: Alignment.centerRight,
-          child: Card(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: llgrey, width: 1.w),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              color: white,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10.h,
-                  ),
-                  child: Consumer<InfoProvider>(builder: (_, a, child) {
-                    return FutureBuilder<List<Question>>(
-                        future: questions,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount:
-                                    snapshot.data![myIndex].answers!.length,
-                                itemBuilder: (context, index) {
-                                  if (editingController.text.isEmpty) {
-                                    return InkWell(
-                                      onTap: () async {
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Container(
+                  alignment: Alignment.centerRight,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: llgrey, width: 1.w),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    color: white,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10.h,
+                      ),
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: widget.answers!.length,
+                          itemBuilder: (context, index) {
+                            if (editingController.text.isEmpty) {
+                              return InkWell(
+                                onTap: () async {
+                                  if (!idList.contains(widget.answers![index].id)) {
+                                    if(widget.answers![index].isAnswer == 1){
+                                      ref.changeIndex(index);
+                                      setState((){
+                                        tapIndex = null;
+                                        press = false;
+                                        checkedlist[index] = false;
+                                        widget.answers![index].isAnswer = 0;
+                                      });
+                                    }else{
+                                      ref.changeIndex(index);
+                                     setState((){
+                                       if (idList.length == 1 && idList[0] == 0){
+                                         idList.clear();
+                                       }
+                                        idList.add(widget.answers![index].id!);
                                         tapIndex = index;
-
                                         press = true;
+                                        checkedlist[index] = true;
+                                        widget.answers![index].isAnswer = 1;
+                                      });
+                                    }
 
-                                        if (!idList.contains(snapshot
-                                            .data![myIndex]
-                                            .answers![index]
-                                            .id)) {
-                                          if (idList.length == 1 &&
-                                              idList[0] == 0) {
-                                            idList.clear();
-                                          }
-
-                                          idList.add(snapshot.data![myIndex]
-                                              .answers![index].id!);
-                                        }
-
-                                        print("idList");
-                                        print(idList);
-                                        await QuestionManager().postAnswer(
-                                            id!, snapshot.data![myIndex].id!,
-                                            index: index,
-                                            len: snapshot
-                                                .data![myIndex].answers!,
-                                            multiple_choice: idList);
-
-                                        Provider.of<InfoProvider>(context,
-                                                listen: false)
-                                            .rebuild();
-
-                                        _updateProgress(context);
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 20.0.h,
-                                            right: 10.w,
-                                            left: 10.w),
-                                        child: Row(
-                                          children: [
-                                            Transform.scale(
-                                              scale: 1.8,
-                                              child: Checkbox(
-                                                checkColor: (tapIndex ==
-                                                                index &&
-                                                            press == true) ||
-                                                        checkedlist[index] ||
-                                                        snapshot
-                                                                .data![myIndex]
-                                                                .answers![index]
-                                                                .isAnswer ==
-                                                            1
-                                                    ? basicPink
-                                                    : grey,
-                                                fillColor: MaterialStateProperty
-                                                    .resolveWith(getColor),
-                                                value: (tapIndex == index &&
-                                                            press == true) ||
-                                                        snapshot
-                                                                .data![myIndex]
-                                                                .answers![index]
-                                                                .isAnswer ==
-                                                            1
-                                                    ? true
-                                                    : checkedlist[index],
-                                                side: MaterialStateBorderSide
-                                                    .resolveWith(
-                                                  (states) => BorderSide(
-                                                      width: 1.0.w,
-                                                      color: (tapIndex ==
-                                                                      index &&
-                                                                  press ==
-                                                                      true) ||
-                                                              checkedlist[
-                                                                  index] ||
-                                                              snapshot
-                                                                      .data![
-                                                                          myIndex]
-                                                                      .answers![
-                                                                          index]
-                                                                      .isAnswer ==
-                                                                  1
-                                                          ? basicPink
-                                                          : grey),
-                                                ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6)),
-                                                onChanged: (bool? value) async {
-                                                  Provider.of<InfoProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .rebuild();
-                                                  checkedlist[index] = value!;
-
-                                                  if (value == true) {
-                                                    print("ssssssssssssssssss");
-                                                    if (!idList.contains(
-                                                        snapshot
-                                                            .data![myIndex]
-                                                            .answers![index]
-                                                            .id)) {
-                                                      if (idList.length == 1 &&
-                                                          idList[0] == 0) {
-                                                        idList.clear();
-                                                      }
-
-                                                      idList.add(snapshot
-                                                          .data![myIndex]
-                                                          .answers![index]
-                                                          .id!);
-                                                    } else {
-                                                      idList.remove(snapshot
-                                                          .data![myIndex]
-                                                          .answers![index]
-                                                          .id!);
-                                                      print("idList");
-                                                      print(idList);
-                                                    }
-
-                                                    print("idList");
-                                                    print(idList);
-                                                    await QuestionManager()
-                                                        .postAnswer(
-                                                            id!,
-                                                            snapshot
-                                                                .data![myIndex]
-                                                                .id!,
-                                                            index: index,
-                                                            len: snapshot
-                                                                .data![myIndex]
-                                                                .answers!,
-                                                            multiple_choice:
-                                                                idList);
-                                                    Provider.of<InfoProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .rebuild();
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              snapshot.data![myIndex]
-                                                  .answers![index].content!,
-                                              style: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  color: (tapIndex == index &&
-                                                              press == true) ||
-                                                          checkedlist[index] ||
-                                                          snapshot
-                                                                  .data![
-                                                                      myIndex]
-                                                                  .answers![
-                                                                      index]
-                                                                  .isAnswer ==
-                                                              1
-                                                      ? basicPink
-                                                      : black),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  } else if (snapshot.data![myIndex]
-                                          .answers![index].content!
-                                          .contains(editingController.text) ||
-                                      snapshot.data![myIndex].answers![index]
-                                          .content!
-                                          .contains(editingController.text)) {
-                                    return InkWell(
-                                      onTap: () async {
-                                        tapIndex = index;
-
-                                        press = true;
-                                        if (!idList.contains(snapshot
-                                            .data![myIndex]
-                                            .answers![index]
-                                            .id)) {
-                                          if (idList.length == 1 &&
-                                              idList[0] == 0) {
-                                            idList.clear();
-                                          }
-
-                                          idList.add(snapshot.data![myIndex]
-                                              .answers![index].id!);
-                                        }
-
-                                        print("idList");
-                                        print(idList);
-                                        await QuestionManager().postAnswer(
-                                            id!, snapshot.data![myIndex].id!,
-                                            index: index,
-                                            len: snapshot
-                                                .data![myIndex].answers!,
-                                            multiple_choice: idList);
-
-                                        Provider.of<InfoProvider>(context,
-                                                listen: false)
-                                            .rebuild();
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 20.0.h,
-                                            right: 10.w,
-                                            left: 10.w),
-                                        child: Row(
-                                          children: [
-                                            Transform.scale(
-                                              scale: 1.8,
-                                              child: Checkbox(
-                                                checkColor: (tapIndex ==
-                                                                index &&
-                                                            press == true) ||
-                                                        checkedlist[index] ||
-                                                        snapshot
-                                                                .data![myIndex]
-                                                                .answers![index]
-                                                                .isAnswer ==
-                                                            1
-                                                    ? basicPink
-                                                    : grey,
-                                                fillColor: MaterialStateProperty
-                                                    .resolveWith(getColor),
-                                                value: (tapIndex == index &&
-                                                            press == true) ||
-                                                        snapshot
-                                                                .data![myIndex]
-                                                                .answers![index]
-                                                                .isAnswer ==
-                                                            1
-                                                    ? true
-                                                    : checkedlist[index],
-                                                side: MaterialStateBorderSide
-                                                    .resolveWith(
-                                                  (states) => BorderSide(
-                                                      width: 1.0.w,
-                                                      color: (tapIndex ==
-                                                                      index &&
-                                                                  press ==
-                                                                      true) ||
-                                                              checkedlist[
-                                                                  index] ||
-                                                              snapshot
-                                                                      .data![
-                                                                          myIndex]
-                                                                      .answers![
-                                                                          index]
-                                                                      .isAnswer ==
-                                                                  1
-                                                          ? basicPink
-                                                          : grey),
-                                                ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6)),
-                                                onChanged: (bool? value) async {
-                                                  Provider.of<InfoProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .rebuild();
-                                                  checkedlist[index] = value!;
-                                                if (value == true) {
-                                                    print("ssssssssssssssssss");
-                                                    if (!idList.contains(
-                                                        snapshot
-                                                            .data![myIndex]
-                                                            .answers![index]
-                                                            .id)) {
-                                                      if (idList.length == 1 &&
-                                                          idList[0] == 0) {
-                                                        idList.clear();
-                                                      }
-
-                                                      idList.add(snapshot
-                                                          .data![myIndex]
-                                                          .answers![index]
-                                                          .id!);
-                                                    } else {
-                                                      idList.remove(snapshot
-                                                          .data![myIndex]
-                                                          .answers![index]
-                                                          .id!);
-                                                      print("idList");
-                                                      print(idList);
-                                                    }
-
-                                                    print("idList");
-                                                    print(idList);
-                                                    await QuestionManager()
-                                                        .postAnswer(
-                                                            id!,
-                                                            snapshot
-                                                                .data![myIndex]
-                                                                .id!,
-                                                            index: index,
-                                                            len: snapshot
-                                                                .data![myIndex]
-                                                                .answers!,
-                                                            multiple_choice:
-                                                                idList);
-                                                    Provider.of<InfoProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .rebuild();
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              snapshot.data![myIndex]
-                                                  .answers![index].content!,
-                                              style: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  color: (tapIndex == index &&
-                                                              press == true) ||
-                                                          checkedlist[index] ||
-                                                          snapshot
-                                                                  .data![
-                                                                      myIndex]
-                                                                  .answers![
-                                                                      index]
-                                                                  .isAnswer ==
-                                                              1
-                                                      ? basicPink
-                                                      : black),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    return Container();
                                   }
-                                });
-                          } else if (snapshot.hasError) {
-                            return Text(snapshot.error.toString());
-                          } else {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        });
-                  }))),
-        ),
-      ))
+                                  else{
+                                    setState((){
+                                      idList.removeWhere((element) => element == widget.answers![index].id);
+                                      tapIndex = null;
+                                      press = false;
+                                      checkedlist[index] = false;
+                                      widget.answers![index].isAnswer = 0;
+                                    });
+                                  }
+                                  await QuestionManager().postAnswer2(widget.Q_id!, multiple_choice: idList);
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 20.0.h, right: 10.w, left: 10.w),
+                                  child: Row(
+                                    children: [
+                                      Transform.scale(
+                                        scale: 1.8,
+                                        child: Checkbox(
+                                          checkColor:
+                                              tapIndex == index && press == true ||
+                                              checkedlist[index] ||
+                                              widget.answers![index].isAnswer == 1
+                                              ? basicPink
+                                              : grey,
+                                          fillColor:
+                                              MaterialStateProperty.resolveWith(
+                                                  getColor),
+                                          value: (tapIndex == index &&
+                                                      press == true) ||
+                                                  widget.answers![index]
+                                                          .isAnswer ==
+                                                      1
+                                              ? true
+                                              : checkedlist[index],
+                                          side: MaterialStateBorderSide
+                                              .resolveWith(
+                                            (states) => BorderSide(
+                                                width: 1.0.w,
+                                                color: (tapIndex == index &&
+                                                            press == true) ||
+                                                        checkedlist[index] ||
+                                                        widget.answers![index]
+                                                                .isAnswer ==
+                                                            1
+                                                    ? basicPink
+                                                    : grey),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6)),
+                                          onChanged: (bool? value) async {
+                                            if (!idList.contains(widget.answers![index].id)) {
+                                              if (idList.length == 1 && idList[0] == 0)
+                                              {idList.clear();}
+                                              idList.add(widget.answers![index].id!);
+                                              ref.changeIndex(index);
+                                              setState((){
+                                                tapIndex = index;
+                                                press = true;
+                                                checkedlist[index] = true;
+                                                widget.answers![index].isAnswer = 1;
+                                              });
+                                            }else{
+                                              ref.changeIndex(index);
+                                              setState((){
+                                                tapIndex = null;
+                                                press = false;
+                                                checkedlist[index] = false;
+                                                widget.answers![index].isAnswer = 0;
+                                              });
+                                            }
+                                            await QuestionManager().postAnswer2(widget.Q_id!, multiple_choice: idList);
+                                          },
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        widget.answers![index].content!,
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: (tapIndex == index &&
+                                                        press == true) ||
+                                                    checkedlist[index] ||
+                                                    widget.answers![index]
+                                                            .isAnswer ==
+                                                        1
+                                                ? basicPink
+                                                : black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                            else if (widget.answers![index].content!
+                                    .contains(editingController.text) ||
+                                widget.answers![index].content!
+                                    .contains(editingController.text)) {
+                              return InkWell(
+                                onTap: () async {
+                                  if(checkedlist[index] == false){
+                                    ref.changeIndex(index);
+                                    setState(() {
+                                      checkedlist[index] = true;
+                                    });
+                                    idList.add(widget.answers![index].id!);
+                                  }else{
+                                    idList.removeAt(index);
+                                    setState(() {
+                                      checkedlist[index] = false;
+                                    });
+                                  }
+                                  await QuestionManager().postAnswer2(widget.Q_id!, multiple_choice: idList);
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 20.0.h, right: 10.w, left: 10.w),
+                                  child: Row(
+                                    children: [
+                                      Transform.scale(
+                                        scale: 1.8,
+                                        child: Checkbox(
+                                          checkColor: (tapIndex == index &&
+                                                      press == true) ||
+                                                  checkedlist[index] ||
+                                                  widget.answers![index]
+                                                          .isAnswer ==
+                                                      1
+                                              ? basicPink
+                                              : grey,
+                                          fillColor:
+                                              MaterialStateProperty.resolveWith(
+                                                  getColor),
+                                          value: (tapIndex == index &&
+                                                      press == true) ||
+                                                  widget.answers![index]
+                                                          .isAnswer ==
+                                                      1
+                                              ? true
+                                              : checkedlist[index],
+                                          side: MaterialStateBorderSide
+                                              .resolveWith(
+                                            (states) => BorderSide(
+                                                width: 1.0.w,
+                                                color: (tapIndex == index &&
+                                                            press == true) ||
+                                                        checkedlist[index] ||
+                                                        widget.answers![index]
+                                                                .isAnswer ==
+                                                            1
+                                                    ? basicPink
+                                                    : grey),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6)),
+                                          onChanged: (bool? value) async
+                                          {
+                                            ref.changeIndex(index);
+                                            if (value == true) {
+                                              if (!idList.contains(widget.answers![index].id)) {
+                                                if (idList.length == 1 &&
+                                                    idList[0] == 0) {
+                                                  idList.clear();
+                                                }
+                                                idList.add(
+                                                    widget.answers![index].id!);
+                                              }
+                                              else {
+                                                setState(() {
+                                                  idList.remove(
+                                                      widget.answers![index].id!);
+                                                });
+                                              }
+                                              setState((){
+                                                tapIndex = index;
+                                                press = true;
+                                                checkedlist[index] = true;
+                                              });
+                                              await QuestionManager().postAnswer2(widget.Q_id!, multiple_choice: idList);
+                                            }else{
+                                              setState((){
+                                                tapIndex = null;
+                                                press = false;
+                                                checkedlist[index] = false;
+                                                widget.answers![index].isAnswer = 0;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        widget.answers![index].content!,
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: (tapIndex == index &&
+                                                        press == true) ||
+                                                    checkedlist[index] ||
+                                                    widget.answers![index]
+                                                            .isAnswer ==
+                                                        1
+                                                ? basicPink
+                                                : black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          }),
+                    ),
+                  ))))
     ]);
   }
 

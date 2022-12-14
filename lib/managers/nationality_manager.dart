@@ -6,18 +6,18 @@ import '../models/nationality_model.dart';
 
 class NationalityManager extends ChangeNotifier {
   Future<List<Nationality>> getNationality() async {
-    print("response.body");
+
     final response = await http
-        .get(Uri.parse('http://motakam.motakamel.net/api/general/nationality'));
+        .get(Uri.parse('https://elshakhs.net/effah/public/api/general/nationality'));
 
     if (response.statusCode == 200) {
       final responsebody = jsonDecode(response.body) as List;
 
-      final nationalityList =
-          responsebody.map((e) => Nationality.fromJson(e)).toList();
-
+      final nationalityList = responsebody.map((e) => Nationality.fromJson(e)).toList();
+      print(response.body);
       return nationalityList;
     } else {
+      print(response.body);
       throw Exception('Failed to load ');
     }
   }

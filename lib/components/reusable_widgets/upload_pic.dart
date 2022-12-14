@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:effah/models/posts/api_posts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../api_constants.dart';
 import '../../constants.dart';
@@ -58,6 +60,7 @@ class UploadPic extends StatefulWidget {
 }
 
 class _UploadPicState extends State<UploadPic> {
+
   @override
   Widget build(BuildContext context) {
     // var pickedImage;
@@ -215,9 +218,9 @@ class _UploadPicState extends State<UploadPic> {
   }
 
   Widget upload() => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.only(bottom: 0),
         child: Container(
-          width: 110.w,
+          width: 110.h,
           height: 110.h,
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
@@ -268,52 +271,58 @@ class _UploadPicState extends State<UploadPic> {
           width: 160.w,
           height: 160.h,
           child: Container(
+
             decoration: BoxDecoration(
-              border: Border.all(color: cgrey, width: 11.w),
+              border: Border.all(color: cgrey, width: 8.w),
               shape: BoxShape.circle,
             ),
             child: CircleAvatar(
               radius: 15,
-              backgroundColor: cgrey,
-              child: ClipOval(
-                child: widget.images.isNotEmpty &&
+              backgroundColor: Colors.white,
+              child: widget.images.isNotEmpty &&
                         widget.index > -1 &&
                         widget.myFile.path.toString().isEmpty
-                    ? CachedNetworkImage(
-                        imageBuilder: (context, imageProvider) {
-                          return Container(
-                            width: 96.0,
-                            height: 96.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              //border: Border.all(color: Appc.colorPrimary,width: 1),
-                            ),
-                            child: CircleAvatar(
-                              radius: 96.0,
-                              backgroundImage: imageProvider,
-                            ),
-                          );
-                        },
-                        imageUrl: ApiConstants.imagebaseUrl +
-                            widget.images.elementAt(widget.index).image!,
-                        width: 96.0,
-                        height: 96.0,
-                        placeholder: (context, url) {
-                          return SvgPicture.asset("assets/icon/img.svg");
-                        },
-                        errorWidget: (context, url, error) {
-                          return SvgPicture.asset("assets/icon/img.svg");
-                        },
-                      )
+                    ? ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                          imageBuilder: (context, imageProvider) {
+                            return Container(
+                              width: 96.0,
+                              height: 96.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                //border: Border.all(color: Appc.colorPrimary,width: 1),
+                              ),
+                              child: CircleAvatar(
+                                radius: 96.0,
+                                backgroundImage: imageProvider,
+                              ),
+                            );
+                          },
+                          imageUrl: ApiConstants.imagebaseUrl +
+                              widget.images.elementAt(widget.index).image!,
+                          width: 96.0,
+                          height: 96.0,
+                          placeholder: (context, url) {
+                            return SvgPicture.asset("assets/icon/img.svg");
+                          },
+                          errorWidget: (context, url, error) {
+                            return SvgPicture.asset("assets/icon/img.svg");
+                          },
+                        ),
+                    )
                     : (widget.myFile.path.isNotEmpty
                         ?
-                             Image.file(
-                              widget.myFile,
-                              //  fit: BoxFit.fill,
-                              fit: BoxFit.cover,
-                              // width: 120.h,
-                              // height: 120.w,
-                            )
+              ClipRRect(
+                               borderRadius: BorderRadius.circular(100),
+                               child: Image.file(
+                                widget.myFile,
+                                //  fit: BoxFit.fill,
+                                fit: BoxFit.cover,
+                                width: 150.h,
+                                height: 150.h,
+                            ),
+                             )
 
                         : SvgPicture.asset(
                             "assets/image/addpic.svg",
@@ -325,7 +334,6 @@ class _UploadPicState extends State<UploadPic> {
               ),
             ),
           ),
-        ),
         Positioned(
           left: 12.w,
           bottom: 0,

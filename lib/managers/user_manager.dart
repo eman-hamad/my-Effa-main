@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:effah/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../api_constants.dart';
@@ -45,7 +46,8 @@ class UserManager extends ChangeNotifier {
     }
   }
 
-  Future<MyUser> updateUser(int? user_id,
+  Future<MyUser> updateUser(
+      int? user_id,
       {int? gender,
       String? frName,
       String? lsName,
@@ -74,6 +76,7 @@ class UserManager extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       print(response.body);
+
       notifyListeners();
       return MyUser.fromJson(jsonDecode(response.body));
     } else {

@@ -34,7 +34,7 @@ class FatherInfo extends StatelessWidget {
   int tapIndex = 0;
   static int myLen = 0;
   static int femaleLen = 0;
-  // Future<List<Question>>? maleQuestionList;
+
   Future<List<Question>>? femaleQuestionList;
   final controller = SwiperController();
 
@@ -42,40 +42,11 @@ class FatherInfo extends StatelessWidget {
   int h = 0;
   int len = 0;
   int fLen = 0;
-  getLength() async {
-    // myLen = g.length;
-    k = await QuestionManager().getQuestions(id!, 5, 1);
-    myLen = k.length;
-
-    myfLen = await QuestionManager().getQuestions(id!, 5, 2);
-    femaleLen = myfLen.length;
-
-    // print(g.length);
-    // len = g.length;
-    // print("len");
-    // print(myLen);
-  }
+  int level = 1;
 
   @override
   Widget build(BuildContext context) {
-    //  final model = Provider.of<AppStateProvider>(context, listen: false);
-
-    //maleQuestionList = QuestionManager().getQuestion(id!, 5, 1);
-    femaleQuestionList = QuestionManager().getQuestions(id!, 5, 2);
-Future<List<Question>> list=QuestionManager().getQuestions(id!, 5, gender);
-list.then((value) {
-      print("gender ");
-      print(QuestionManager.len);
-      print(Provider.of<InfoProvider>(context, listen: false)
-          .educationProgressValue);
-      Provider.of<InfoProvider>(context, listen: false).parentProgressValue =
-          1 / QuestionManager.len;
-    });
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0.0,
-      //   backgroundColor: transparnt,
-      // ),
       body: Column(children: [
         SizedBox(
           height: 65.h,
@@ -126,69 +97,51 @@ list.then((value) {
           ),
         ),
         FutureBuilder<List<Question>>(
-            future: femaleQuestionList,
+            future: QuestionManager().getQuestions(2, level,context),
             builder: (context, snapshot) {
-              // print("myIndex");
-              // print(myIndex);
-              // print("snapshot");
-              // print(snapshot.data![0].content);
+              Future<List<Question>> list= QuestionManager().getQuestions(2, level ,context);
               if (snapshot.hasData) {
                 return Expanded(
-                  //  flex: 3,
                   child: Swiper(
                     controller: controller,
                     onIndexChanged: (value) {
                       Provider.of<InfoProvider>(context, listen: false)
                           .myIndexParent = value;
+                      print("${value+1}dssssssssssssssssssssssssssssssssssssssssssssssssssssssd");
+                      print("${QuestionManager.len}dsssssssssssssssssssssmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmsssssssssssssssssssssssssssssssssd");
+
+                      QuestionManager.len == value+1 ? level++:null;
+                      print(level);
                     },
                     loop: false,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int x) {
-                      // getLength().then((v) {
-                      //   print("vvvvvvvvvvvv");
-                      //   print(femaleLen);
-                      //   // myLen = len;
-                      // });
-
                       if (snapshot.data![x].type == 1) {
                         return Center(
-                          child: TextQuestion(
-                              id: id,
-                              myLength: gender == 1 ? myLen : femaleLen,
-                          
-                              questions:
-                                  // gender == 1
-                                  //     ? maleQuestionList
-                                  //     :
-                                  femaleQuestionList,
-                              myIndex: Provider.of<InfoProvider>(context,
-                                      listen: false)
-                                  .myIndexParent),
+                          child:  TextQuestion(
+                            id: id,
+                            Q_id:  snapshot.data![x].id,
+                            question: snapshot.data![x].content!,
+                            answers: snapshot.data![x].answers,),
                         );
                       } else if (snapshot.data![x].type == 2 ||
                           snapshot.data![x].type == 4) {
                         return Center(
                           child: OneChoice(
-                              gender: gender,
-                              editingController: editingController,
-                              id: id,
-                              myLength: gender == 1 ? myLen : femaleLen,
-                          
-                              questions: femaleQuestionList,
-                              myIndex: Provider.of<InfoProvider>(context,
-                                      listen: false)
-                                  .myIndexParent),
+                            editingController: editingController,
+                            id: id,
+                            Q_id:  snapshot.data![x].id,
+                            answers: snapshot.data![x].answers,
+                            question: snapshot.data![x].content!,),
                         );
                       } else {
                         return Center(
                           child: MultipleChoices(
-                              id: id,
-                              myLength: gender == 1 ? myLen : femaleLen,
-                            
-                              questions: femaleQuestionList,
-                              myIndex: Provider.of<InfoProvider>(context,
-                                      listen: false)
-                                  .myIndexParent),
+                            id: id,
+                            Q_id: snapshot.data![x].id,
+                            question:snapshot.data![x].content!,
+                            answers:snapshot.data![x].answers,
+                          ),
                         );
                       }
                     },

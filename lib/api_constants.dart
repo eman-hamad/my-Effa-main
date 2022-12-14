@@ -12,6 +12,8 @@ class ApiConstants {
 
   static const questionEendPoint = baseUrl + 'categories/questions';
 
+  static const questionEendPoint2 = baseUrl + 'categories/get_questions';
+
   static const oneQuestionEendPoint = baseUrl + 'categories/question';
 
   static const answerEndPoint = baseUrl + 'questions/answer';
